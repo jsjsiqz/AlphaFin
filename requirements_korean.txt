@@ -1,0 +1,37 @@
+# AlphaFin 한국판 의존성
+# pip install -r requirements_korean.txt
+
+# ── 한국 주가 데이터 (무료) ─────────────────────────────────────
+pykrx
+
+# ── LLM API ─────────────────────────────────────────────────────
+google-genai               # Gemini 최신 SDK — 무료 (Stage 1 추론)
+groq                       # Groq / Llama 3.3 — 무료 (Stage 1 + 에이전트)
+openai                     # GPT-4o-mini + 임베딩 — 합성기 전용 (~$0.05 총액)
+
+# ── LangChain RAG (무료) ─────────────────────────────────────────
+langchain                  # 문서 로더, RAG 체인
+langchain-core             # Document, BaseRetriever 등 핵심 추상화
+langchain-text-splitters   # RecursiveCharacterTextSplitter
+langchain-openai           # OpenAI 임베딩 래퍼
+langchain-chroma           # Chroma 벡터스토어 통합
+
+# ── 벡터 DB: Chroma 로컬 (무료) ─────────────────────────────────
+chromadb
+
+# ── 데이터 처리 ─────────────────────────────────────────────────
+pandas
+numpy
+openpyxl
+requests
+tqdm
+fire
+python-dotenv
+
+# ── 시각화 + 대시보드 (무료) ────────────────────────────────────
+matplotlib
+streamlit
+
+# ── 선택적 확장 ──────────────────────────────────────────────────
+# supabase              # 클라우드 벡터DB (팀 공유 필요 시)
+# langchain-community   # Supabase 통합 시
