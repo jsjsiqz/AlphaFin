@@ -6,10 +6,20 @@ import os
 import sys
 import time
 
+import streamlit as st
+
+# Streamlit Cloud secrets → os.environ 주입 (로컬 .env 대체)
+_SECRET_KEYS = [
+    "ANTHROPIC_API_KEY", "OPENAI_API_KEY",
+    "DART_API_KEY", "NAVER_CLIENT_ID", "NAVER_CLIENT_SECRET",
+]
+for _k in _SECRET_KEYS:
+    if _k in st.secrets and not os.environ.get(_k):
+        os.environ[_k] = st.secrets[_k]
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
-import streamlit as st
 from pykrx import stock as pykrx_stock
 
 _THIS_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -34,6 +44,8 @@ if platform.system() == "Windows":
     matplotlib.rc("font", family="Malgun Gothic")
 elif platform.system() == "Darwin":
     matplotlib.rc("font", family="AppleGothic")
+else:
+    matplotlib.rc("font", family="NanumGothic")  # Streamlit Cloud Linux (packages.txt: fonts-nanum)
 matplotlib.rc("axes", unicode_minus=False)
 
 
