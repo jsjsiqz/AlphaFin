@@ -1,6 +1,6 @@
 """
 LLM 출력에서 상승/하락 추출 (AlphaFin dataprocess_stockgpt.py의 한국판)
-Gemini / Groq(Llama) / OpenAI GPT-4o-mini 한국어 금융 키워드 기반 규칙 추출
+Claude(Haiku) / OpenAI GPT-4o-mini 한국어 금융 키워드 기반 규칙 추출
 """
 import json
 import os
@@ -90,7 +90,8 @@ def process_predictions(
     rows = []
     for r in records:
         row = {
-            "ticker": r["ticker"],
+            # zfill(6): Excel이 '005930'을 정수(5930)로 저장하는 문제 방지
+            "ticker": str(r["ticker"]).zfill(6),
             "stock_name": r["stock_name"],
             "date": r["date"],
             "ground_truth": r.get("label", extract_ground_truth(r["ground_truth"])),

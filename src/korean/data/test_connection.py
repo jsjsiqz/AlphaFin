@@ -14,26 +14,27 @@ from config import DART_API_KEY, OPENAI_API_KEY
 
 def test_dart():
     print("=" * 50)
-    print("[1] OpenDART API 연결 테스트")
+    print("[1] OpenDART API 연결 테스트 (기업코드 목록 다운로드)")
     print("=" * 50)
 
     if not DART_API_KEY:
         print("❌ DART_API_KEY 없음 → .env 파일 확인")
         return False
 
-    import requests
-    # 삼성전자 corp_code 조회
-    url = "https://opendart.fss.or.kr/api/company.json"
-    resp = requests.get(url, params={"crtfc_key": DART_API_KEY, "stock_code": "005930"}, timeout=10)
-    data = resp.json()
-
-    if data.get("status") == "000":
-        print(f"✅ DART 연결 성공")
-        print(f"   회사명: {data.get('corp_name')}")
-        print(f"   corp_code: {data.get('corp_code')}")
-        return True
-    else:
-        print(f"❌ DART 오류: {data.get('message')}")
+    from fetch_reports import get_corp_code, _load_corp_code_map
+    try:
+        mapping = _load_corp_code_map()
+        corp_code = mapping.get("005930")
+        if corp_code:
+            print(f"✅ DART 연결 성공")
+            print(f"   삼성전자 corp_code: {corp_code}")
+            print(f"   전체 기업코드 수: {len(mapping)}건")
+            return True
+        else:
+            print("❌ 삼성전자 corp_code 조회 실패")
+            return False
+    except Exception as e:
+        print(f"❌ DART 오류: {e}")
         return False
 
 
@@ -44,26 +45,30 @@ def test_dart_financial():
     from fetch_reports import get_corp_code, fetch_financial_summary
     corp_code = get_corp_code("005930")
     if not corp_code:
-        print("❌ corp_code 조회 실패")
+        print("❌ corp_code 조회 실패 (test_dart 먼저 통과 필요)")
         return False
 
-    # 2023년 3월 신고된 사업보고서 → FY2022 데이터 → bsns_year="2022"
     fin = fetch_financial_summary(corp_code, "2022", "11011")
     if fin:
-        revenue = int(fin.get("revenue", 0))
+        revenue_str = fin.get("revenue", "0").replace(",", "")
+        revenue = int(revenue_str) if revenue_str.lstrip("-").isdigit() else 0
         print(f"✅ 재무 데이터 조회 성공")
         print(f"   매출액: {revenue:,}원")
         print(f"   영업이익: {fin.get('operating_profit', 'N/A')}원")
         print(f"   당기순이익: {fin.get('net_income', 'N/A')}원")
         return True
     else:
-        print("❌ 재무 데이터 없음 (API 응답 확인 필요)")
+        print("❌ 재무 데이터 없음")
         return False
 
 
 def test_pykrx():
     print("\n[3] pykrx 주가 데이터 테스트 (삼성전자 2023년)")
     print("=" * 50)
+    print("  ※ 인증 안내:")
+    print("    - get_market_ohlcv : 인증 불필요 ✅ (주가 수집에 사용)")
+    print("    - get_market_cap   : KRX_ID/KRX_PW 필요 ❌ (동일가중으로 대체)")
+    print("    - get_index_ohlcv  : KRX_ID/KRX_PW 필요 ❌ (30종목 프록시로 대체)")
 
     try:
         from pykrx import stock
@@ -71,7 +76,7 @@ def test_pykrx():
         if df.empty:
             print("❌ pykrx 데이터 없음")
             return False
-        print(f"✅ pykrx 연결 성공")
+        print(f"✅ pykrx(OHLCV) 연결 성공")
         print(f"   수집 행수: {len(df)}일")
         print(f"   마지막 종가: {df['종가'].iloc[-1]:,}원")
         return True

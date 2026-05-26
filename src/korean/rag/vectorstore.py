@@ -61,13 +61,16 @@ def get_retriever(ticker: str = None, source: str = None, k: int = 3):
     vs = get_vectorstore()
     search_kwargs: dict = {"k": k}
 
-    filter_dict: dict = {}
+    conditions = []
     if ticker:
-        filter_dict["ticker"] = ticker
+        conditions.append({"ticker": {"$eq": ticker}})
     if source:
-        filter_dict["source"] = source
-    if filter_dict:
-        search_kwargs["filter"] = filter_dict
+        conditions.append({"source": {"$eq": source}})
+
+    if len(conditions) == 1:
+        search_kwargs["filter"] = conditions[0]
+    elif len(conditions) > 1:
+        search_kwargs["filter"] = {"$and": conditions}
 
     return vs.as_retriever(search_kwargs=search_kwargs)
 

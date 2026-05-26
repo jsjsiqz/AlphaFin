@@ -7,9 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ── LLM API Keys ───────────────────────────────────────────────────────────
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")   # 무료
-GROQ_API_KEY   = os.getenv("GROQ_API_KEY", "")     # 무료
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")   # 합성기 + 임베딩만 사용
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "") # 학교 제공 — Stage 1 + 에이전트
+OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY", "")    # 합성기 + 임베딩만 사용
 
 # ── Data API Keys ──────────────────────────────────────────────────────────
 DART_API_KEY        = os.getenv("DART_API_KEY", "")        # 무료
@@ -58,13 +57,12 @@ TARGET_STOCKS = {
 
 # ── 백테스트 기간 ──────────────────────────────────────────────────────────
 BACKTEST_START = "20230101"
-BACKTEST_END   = "20241231"
+BACKTEST_END   = "20250131"
 
 # ── LLM 모델 ───────────────────────────────────────────────────────────────
 MODELS = {
-    "gemini": "gemini-1.5-flash",         # Stage 1 추론 (무료)
-    "groq":   "llama-3.3-70b-versatile",  # Stage 1 추론 + 에이전트 (무료)
-    "openai": "gpt-4o-mini",              # 합성기 전용 (~$0.03/프로젝트 전체)
+    "claude": "claude-haiku-4-5-20251001", # Stage 1 추론 + 에이전트 (학교 제공)
+    "openai": "gpt-4o-mini",              # 합성기 + 임베딩 전용
 }
 
 # ── 경로 ───────────────────────────────────────────────────────────────────

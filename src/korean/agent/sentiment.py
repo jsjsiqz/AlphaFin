@@ -1,8 +1,9 @@
 """
 감성 에이전트
-LangChain RAG(뉴스) + Stage 1 예측값 → Groq/Llama 감성 분류 (무료)
+LangChain RAG(뉴스) + Stage 1 예측값 → Claude Haiku 감성 분류 (학교 제공)
 """
 import os
+import re
 import sys
 import pandas as pd
 
@@ -10,7 +11,7 @@ _THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
 _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
 sys.path.insert(0, _KOREAN_DIR)
 
-from config import GROQ_API_KEY, MODELS, OUTPUT_DIR
+from config import ANTHROPIC_API_KEY, MODELS, OUTPUT_DIR
 
 # 지연 초기화 — API 키 없어도 import 성공
 _client = None
@@ -19,10 +20,10 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        from groq import Groq
-        if not GROQ_API_KEY:
-            raise RuntimeError("GROQ_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
-        _client = Groq(api_key=GROQ_API_KEY)
+        import anthropic
+        if not ANTHROPIC_API_KEY:
+            raise RuntimeError("ANTHROPIC_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        _client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     return _client
 
 
@@ -46,11 +47,13 @@ def _get_stage1_signal(ticker: str) -> dict:
         return {}
     try:
         df = pd.read_excel(pred_path)
+        # Excel이 '005930' 같은 종목코드를 정수(5930)로 읽는 문제 방지
+        df["ticker"] = df["ticker"].astype(str).str.zfill(6)
         df_t = df[df["ticker"] == ticker].sort_values("date", ascending=False)
         if df_t.empty:
             return {}
         latest     = df_t.iloc[0]
-        model_cols = [c for c in ["gemini", "groq", "openai"] if c in df.columns]
+        model_cols = [c for c in ["claude", "openai"] if c in df.columns]
         if not model_cols:
             return {}
         signals   = {m: int(latest.get(m, 0)) for m in model_cols}
@@ -66,10 +69,18 @@ def _get_stage1_signal(ticker: str) -> dict:
         return {}
 
 
+def _parse_confidence(text: str) -> float:
+    """LLM 출력에서 신뢰도 값 추출 (0.0~1.0)"""
+    m = re.search(r'신뢰도\s*[:：]\s*([0-9]+\.?[0-9]*)', text)
+    if m:
+        return min(max(float(m.group(1)), 0.0), 1.0)
+    return 0.5
+
+
 def sentiment_agent(ticker: str, stock_name: str) -> tuple:
     """
     Returns:
-        (result_dict, rag_doc_list)
+        (result_dict, rag_text_list)
     """
     news_text, news_docs = _get_news_context(ticker, stock_name)
     stage1 = _get_stage1_signal(ticker)
@@ -97,19 +108,19 @@ def sentiment_agent(ticker: str, stock_name: str) -> tuple:
 근거: 2문장 이내"""
 
     try:
-        resp = _get_client().chat.completions.create(
-            model=MODELS["groq"],
-            messages=[{"role": "user", "content": prompt}],
+        resp = _get_client().messages.create(
+            model=MODELS["claude"],
             max_tokens=300,
-            temperature=0.1,
+            messages=[{"role": "user", "content": prompt}],
         )
-        text = resp.choices[0].message.content.strip()
+        text = resp.content[0].text.strip()
         signal = 1 if "긍정" in text else (-1 if "부정" in text else 0)
         return {
             "signal":      signal,
+            "confidence":  _parse_confidence(text),
             "stage1_data": stage1,
             "raw_output":  text,
             "summary":     text.split("근거:")[-1].strip()[:120] if "근거:" in text else text[:120],
         }, news_docs
     except Exception as e:
-        return {"signal": 0, "raw_output": f"[ERROR] {e}", "summary": "분석 실패"}, []
+        return {"signal": 0, "confidence": 0.0, "raw_output": f"[ERROR] {e}", "summary": "분석 실패"}, []

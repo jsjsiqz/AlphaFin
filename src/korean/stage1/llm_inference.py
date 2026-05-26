@@ -1,6 +1,6 @@
 """
 멀티 LLM 주가 방향 예측 (AlphaFin stockgpt_inf.py의 한국판)
-Gemini / Groq(Llama) / OpenAI GPT-4o-mini 3종 비교
+Claude(Haiku) / OpenAI GPT-4o-mini 멀티 LLM 주가 방향 예측
 """
 import os
 import sys
@@ -9,24 +9,20 @@ import time
 import argparse
 from tqdm import tqdm
 
-from google import genai as google_genai
-from groq import Groq
+import anthropic
 from openai import OpenAI
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from config import (
-    GEMINI_API_KEY, GROQ_API_KEY, OPENAI_API_KEY,
+    ANTHROPIC_API_KEY, OPENAI_API_KEY,
     MODELS, OUTPUT_DIR
 )
 
 # 모델별 최소 대기 시간 (API RPM 제한 기준)
-# Gemini 1.5 Flash 무료: 15 RPM → 4초
-# Groq 무료: 30 RPM → 2초
-# OpenAI Tier1 (유료): 500 RPM → 1초
-# ※ OpenAI 무료 trial 계정(3 RPM)은 delay를 20.0으로 올릴 것
+# Claude Haiku (학교 제공):    200 RPM → 1초 (여유 있게 설정)
+# OpenAI GPT-4o-mini:         500 RPM → 1초
 MODEL_DELAYS = {
-    "gemini": 4.0,
-    "groq":   2.0,
+    "claude": 1.0,
     "openai": 1.0,
 }
 
@@ -36,11 +32,8 @@ MODEL_DELAYS = {
 def init_clients() -> dict:
     clients = {}
 
-    if GEMINI_API_KEY:
-        clients["gemini"] = google_genai.Client(api_key=GEMINI_API_KEY)
-
-    if GROQ_API_KEY:
-        clients["groq"] = Groq(api_key=GROQ_API_KEY)
+    if ANTHROPIC_API_KEY:
+        clients["claude"] = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     if OPENAI_API_KEY:
         clients["openai"] = OpenAI(api_key=OPENAI_API_KEY)
@@ -50,26 +43,14 @@ def init_clients() -> dict:
 
 # ── LLM 호출 함수 ──────────────────────────────────────────────────────────
 
-def call_gemini(client, prompt: str) -> str:
+def call_claude(client, prompt: str) -> str:
     try:
-        resp = client.models.generate_content(
-            model=MODELS["gemini"],
-            contents=prompt,
-        )
-        return resp.text.strip()
-    except Exception as e:
-        return f"[ERROR] {e}"
-
-
-def call_groq(client, prompt: str) -> str:
-    try:
-        resp = client.chat.completions.create(
-            model=MODELS["groq"],
-            messages=[{"role": "user", "content": prompt}],
+        resp = client.messages.create(
+            model=MODELS["claude"],
             max_tokens=512,
-            temperature=0.1,
+            messages=[{"role": "user", "content": prompt}],
         )
-        return resp.choices[0].message.content.strip()
+        return resp.content[0].text.strip()
     except Exception as e:
         return f"[ERROR] {e}"
 
@@ -88,10 +69,8 @@ def call_openai(client, prompt: str) -> str:
 
 
 def call_llm(model_name: str, clients: dict, prompt: str) -> str:
-    if model_name == "gemini":
-        return call_gemini(clients["gemini"], prompt)
-    elif model_name == "groq":
-        return call_groq(clients["groq"], prompt)
+    if model_name == "claude":
+        return call_claude(clients["claude"], prompt)
     elif model_name == "openai":
         return call_openai(clients["openai"], prompt)
     return "[ERROR] unknown model"
@@ -131,7 +110,7 @@ def run_inference(
 
     Args:
         data_path:   korean_testdata.json 경로
-        model_names: ["gemini", "groq", "openai"] 중 선택
+        model_names: ["claude", "openai"] 중 선택
         output_dir:  결과 저장 디렉토리
         delay:       모델별 기본 딜레이에 추가할 시간(초), 보통 0으로 유지
     """
@@ -139,7 +118,7 @@ def run_inference(
         output_dir = OUTPUT_DIR
     os.makedirs(output_dir, exist_ok=True)
 
-    save_path = os.path.join(output_dir, "llm_predictions.jsonl")  # 루프 밖에서 정의
+    save_path = os.path.join(output_dir, "llm_predictions.jsonl")
 
     with open(data_path, encoding="utf-8") as f:
         testdata = json.load(f)
@@ -151,9 +130,8 @@ def run_inference(
 
     # 이미 처리된 항목 확인 (중단 후 재실행 시 스킵)
     done_keys = load_done_keys(save_path)
-    skipped = len(done_keys)
-    if skipped:
-        print(f"[INFO] 이미 처리된 {skipped}건 스킵 (이어서 실행)")
+    if done_keys:
+        print(f"[INFO] 이미 처리된 {len(done_keys)}건 스킵 (이어서 실행)")
 
     remaining = [s for s in testdata if (s["ticker"], s["date"]) not in done_keys]
     print(f"[INFO] 처리 대상: {len(remaining)}건 / 전체: {len(testdata)}건, 모델: {available}")
@@ -162,17 +140,16 @@ def run_inference(
     for sample in tqdm(remaining, desc="LLM 추론"):
         prompt = build_prompt(sample["instruction"], sample["input"])
         result = {
-            "ticker":     sample["ticker"],
-            "stock_name": sample["stock_name"],
-            "date":       sample["date"],
+            "ticker":       sample["ticker"],
+            "stock_name":   sample["stock_name"],
+            "date":         sample["date"],
             "ground_truth": sample["output"],
-            "label":      sample["label"],
+            "label":        sample["label"],
         }
 
         for model_name in available:
             output = call_llm(model_name, clients, prompt)
             result[model_name] = output
-            # 모델별 RPM 제한 준수 (MODEL_DELAYS 기준 + 추가 delay)
             wait = MODEL_DELAYS.get(model_name, 1.0) + delay
             time.sleep(wait)
 
@@ -188,9 +165,9 @@ def run_inference(
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_path", default=f"{OUTPUT_DIR}/korean_testdata.json")
-    parser.add_argument("--models", nargs="+", default=["gemini", "groq", "openai"])
+    parser.add_argument("--models", nargs="+", default=["claude", "openai"])
     parser.add_argument("--output_dir", default=OUTPUT_DIR)
-    parser.add_argument("--delay", type=float, default=0.5)
+    parser.add_argument("--delay", type=float, default=0.0)
     args = parser.parse_args()
 
     run_inference(args.data_path, args.models, args.output_dir, args.delay)

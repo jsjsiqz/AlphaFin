@@ -4,8 +4,11 @@ AlphaFin의 중국 재무 리포트 수집을 대체
 """
 import os
 import sys
+import io
 import json
 import time
+import zipfile
+import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 from typing import Optional
@@ -18,41 +21,136 @@ DART_BASE_URL = "https://opendart.fss.or.kr/api"
 
 # 수집 대상 보고서 종류
 REPORT_TYPES = {
-    "A001": "사업보고서",       # 연간
-    "A002": "반기보고서",       # 반기
-    "A003": "분기보고서",       # 분기 (Q1, Q3)
+    "A001": "사업보고서",   # 연간
+    "A002": "반기보고서",   # 반기
+    "A003": "분기보고서",   # 분기 (Q1, Q3)
 }
+
+# 기업코드 로컬 캐시 경로
+_CORP_CODE_CACHE = os.path.join(OUTPUT_DIR, "corp_codes.json")
+_corp_code_map: Optional[dict] = None  # stock_code → corp_code 메모리 캐시
+
+
+# ── 재시도 래퍼 ────────────────────────────────────────────────────────────
+
+def _retry_request(
+    url: str,
+    params: dict = None,
+    headers: dict = None,
+    timeout: int = 10,
+    max_retries: int = 3,
+    delay: float = 2.0,
+) -> requests.Response:
+    """
+    HTTP GET 재시도 래퍼 — DART API 일시 오류 대비.
+    모든 재시도 실패 시 마지막 예외를 re-raise.
+    """
+    last_exc = None
+    for i in range(max_retries):
+        try:
+            resp = requests.get(url, params=params, headers=headers, timeout=timeout)
+            resp.raise_for_status()
+            return resp
+        except Exception as e:
+            last_exc = e
+            if i < max_retries - 1:
+                wait = delay * (i + 1)
+                print(f"  [재시도 {i+1}/{max_retries}] {url.split('/')[-1]}: {e} — {wait:.0f}초 대기")
+                time.sleep(wait)
+    raise last_exc
+
+
+# ── 기업코드 매핑 ──────────────────────────────────────────────────────────
+
+def _load_corp_code_map() -> dict:
+    """
+    DART corpCode.xml 다운로드 후 stock_code → corp_code 매핑 반환.
+    로컬 캐시가 있으면 재사용.
+    """
+    global _corp_code_map
+    if _corp_code_map is not None:
+        return _corp_code_map
+
+    # 로컬 캐시 확인
+    if os.path.exists(_CORP_CODE_CACHE):
+        with open(_CORP_CODE_CACHE, encoding="utf-8") as f:
+            _corp_code_map = json.load(f)
+        return _corp_code_map
+
+    # DART에서 전체 기업코드 ZIP 다운로드
+    print("[INFO] DART 기업코드 목록 다운로드 중...")
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    url  = f"{DART_BASE_URL}/corpCode.xml"
+    resp = _retry_request(url, params={"crtfc_key": DART_API_KEY}, timeout=60)
+
+    with zipfile.ZipFile(io.BytesIO(resp.content)) as z:
+        xml_name = [n for n in z.namelist() if n.lower().endswith(".xml")][0]
+        with z.open(xml_name) as f:
+            tree = ET.parse(f)
+
+    mapping = {}
+    for item in tree.getroot().findall("list"):
+        stock = (item.findtext("stock_code") or "").strip()
+        corp  = (item.findtext("corp_code")  or "").strip()
+        if stock:
+            mapping[stock] = corp
+
+    with open(_CORP_CODE_CACHE, "w", encoding="utf-8") as f:
+        json.dump(mapping, f, ensure_ascii=False)
+
+    print(f"[INFO] 기업코드 {len(mapping)}건 캐시 저장: {_CORP_CODE_CACHE}")
+    _corp_code_map = mapping
+    return _corp_code_map
 
 
 def get_corp_code(ticker: str) -> Optional[str]:
-    """티커로 DART 고유번호 조회"""
-    url = f"{DART_BASE_URL}/company.json"
-    params = {"crtfc_key": DART_API_KEY, "stock_code": ticker}
-    resp = requests.get(url, params=params, timeout=10)
-    data = resp.json()
-    if data.get("status") == "000":
-        return data.get("corp_code")
+    """티커(stock_code)로 DART 고유번호(corp_code) 조회"""
+    mapping = _load_corp_code_map()
+    return mapping.get(ticker)
+
+
+# ── 보고서 목록 / 재무 수집 ───────────────────────────────────────────────
+
+def _report_nm_to_type(report_nm: str) -> Optional[str]:
+    """report_nm 문자열로 보고서 유형 코드 반환"""
+    if "사업보고서" in report_nm:
+        return "A001"
+    if "반기보고서" in report_nm:
+        return "A002"
+    if "분기보고서" in report_nm:
+        return "A003"
     return None
 
 
 def fetch_report_list(corp_code: str, start_date: str, end_date: str) -> list:
-    """기업의 정기공시(A001/A002/A003) 목록 조회"""
+    """기업의 정기공시(사업/반기/분기보고서) 목록 조회"""
     url = f"{DART_BASE_URL}/list.json"
     params = {
         "crtfc_key": DART_API_KEY,
         "corp_code": corp_code,
-        "bgn_de": start_date,
-        "end_de": end_date,
-        "pblntf_ty": "A",   # 정기공시 유형 전체
+        "bgn_de":    start_date,
+        "end_de":    end_date,
+        "pblntf_ty": "A",   # 정기공시
         "page_count": 40,
     }
-    resp = requests.get(url, params=params, timeout=10)
-    data = resp.json()
-    if data.get("status") == "000":
-        # A001(사업보고서), A002(반기), A003(분기)만 필터링
-        return [r for r in data.get("list", [])
-                if r.get("pblntf_detail_ty") in REPORT_TYPES]
-    return []
+    try:
+        resp = _retry_request(url, params=params, timeout=10)
+        data = resp.json()
+    except Exception as e:
+        print(f"  [WARN] 보고서 목록 조회 실패 ({corp_code}): {e}")
+        return []
+
+    if data.get("status") != "000":
+        return []
+
+    results = []
+    for r in data.get("list", []):
+        rpt_nm   = r.get("report_nm", "")
+        rpt_type = _report_nm_to_type(rpt_nm)
+        if rpt_type:
+            r["pblntf_detail_ty"] = rpt_type
+            results.append(r)
+    return results
 
 
 def get_reprt_code(rpt_type: str, rcept_month: int) -> str:
@@ -79,14 +177,14 @@ def fetch_financial_summary(corp_code: str, year: str, report_code: str = "11011
     """
     url = f"{DART_BASE_URL}/fnlttSinglAcntAll.json"
     params = {
-        "crtfc_key": DART_API_KEY,
-        "corp_code": corp_code,
-        "bsns_year": year,
+        "crtfc_key":  DART_API_KEY,
+        "corp_code":  corp_code,
+        "bsns_year":  year,
         "reprt_code": report_code,
-        "fs_div": "CFS",  # 연결재무제표
+        "fs_div":     "CFS",   # 연결재무제표
     }
     try:
-        resp = requests.get(url, params=params, timeout=10)
+        resp = _retry_request(url, params=params, timeout=10)
         data = resp.json()
         if data.get("status") != "000":
             return {}
@@ -94,7 +192,7 @@ def fetch_financial_summary(corp_code: str, year: str, report_code: str = "11011
         result = {}
         for item in data.get("list", []):
             account = item.get("account_nm", "")
-            amount = item.get("thstrm_amount", "0").replace(",", "")
+            amount  = item.get("thstrm_amount", "0").replace(",", "")
             if "매출액" in account:
                 result["revenue"] = amount
             elif "영업이익" in account:
@@ -105,6 +203,8 @@ def fetch_financial_summary(corp_code: str, year: str, report_code: str = "11011
     except Exception:
         return {}
 
+
+# ── 전체 수집 ─────────────────────────────────────────────────────────────
 
 def build_report_db(start_date: str = "20230101", end_date: str = "20241231") -> list[dict]:
     """
@@ -131,7 +231,11 @@ def build_report_db(start_date: str = "20230101", end_date: str = "20241231") ->
             print(f"[WARN] corp_code 조회 실패: {name}({ticker})")
             continue
 
-        reports = fetch_report_list(corp_code, start_date.replace("-", ""), end_date.replace("-", ""))
+        reports = fetch_report_list(
+            corp_code,
+            start_date.replace("-", ""),
+            end_date.replace("-", ""),
+        )
         time.sleep(0.3)  # API 속도 제한 준수
 
         for r in reports:
@@ -143,27 +247,25 @@ def build_report_db(start_date: str = "20230101", end_date: str = "20241231") ->
             if not rcept_dt:
                 continue
 
-            report_date = f"{rcept_dt[:4]}-{rcept_dt[4:6]}-{rcept_dt[6:8]}"
-            rcept_year = int(rcept_dt[:4])
-            rcept_month = int(rcept_dt[4:6])
+            report_date  = f"{rcept_dt[:4]}-{rcept_dt[4:6]}-{rcept_dt[6:8]}"
+            rcept_year   = int(rcept_dt[:4])
+            rcept_month  = int(rcept_dt[4:6])
 
             # 사업보고서(A001)는 해당 연도에 전년도 실적을 신고
-            # 예: 2023년 3월 신고 → FY2022 재무 데이터
-            fin_year = str(rcept_year - 1) if rpt_type == "A001" else str(rcept_year)
+            fin_year   = str(rcept_year - 1) if rpt_type == "A001" else str(rcept_year)
             reprt_code = get_reprt_code(rpt_type, rcept_month)
 
             fin_summary = fetch_financial_summary(corp_code, fin_year, reprt_code)
             time.sleep(0.2)
 
-            entry = {
-                "ticker": ticker,
-                "stock_name": name,
-                "report_date": report_date,
-                "report_type": REPORT_TYPES[rpt_type],
-                "rcept_no": r.get("rcept_no", ""),
+            all_reports.append({
+                "ticker":            ticker,
+                "stock_name":        name,
+                "report_date":       report_date,
+                "report_type":       REPORT_TYPES[rpt_type],
+                "rcept_no":          r.get("rcept_no", ""),
                 "financial_summary": fin_summary,
-            }
-            all_reports.append(entry)
+            })
 
     save_path = os.path.join(save_dir, "reports_raw.json")
     with open(save_path, "w", encoding="utf-8") as f:

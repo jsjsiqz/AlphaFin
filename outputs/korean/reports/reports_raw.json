@@ -1,0 +1,3354 @@
+[
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002642",
+    "financial_summary": {
+      "operating_profit": "9183371000000",
+      "revenue": "79098731000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003284",
+    "financial_summary": {
+      "operating_profit": "9841345000000",
+      "revenue": "74068302000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001421",
+    "financial_summary": {
+      "operating_profit": "6754708000000",
+      "revenue": "71915601000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2024-03-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240312000736",
+    "financial_summary": {
+      "operating_profit": "15487100000000",
+      "net_income": "14473401000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002109",
+    "financial_summary": {
+      "operating_profit": "5844171000000",
+      "net_income": "8449574000000",
+      "revenue": "67404652000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002534",
+    "financial_summary": {
+      "revenue": "60005533000000",
+      "operating_profit": "1723571000000",
+      "net_income": "349901000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002335",
+    "financial_summary": {
+      "revenue": "63745371000000",
+      "operating_profit": "1574600000000",
+      "net_income": "173348000000"
+    }
+  },
+  {
+    "ticker": "005930",
+    "stock_name": "삼성전자",
+    "report_date": "2023-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20230307000542",
+    "financial_summary": {
+      "revenue": "302231360000000",
+      "operating_profit": "55654077000000",
+      "net_income": "924059000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001712",
+    "financial_summary": {
+      "operating_profit": "7029958000000",
+      "revenue": "17573069000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814001887",
+    "financial_summary": {
+      "operating_profit": "5468536000000",
+      "revenue": "16423258000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001638",
+    "financial_summary": {
+      "operating_profit": "2886029000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2024-03-19",
+    "report_type": "사업보고서",
+    "rcept_no": "20240319000684",
+    "financial_summary": {
+      "operating_profit": "-7730313000000",
+      "net_income": "-9112428000000",
+      "revenue": "32765719000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002574",
+    "financial_summary": {
+      "operating_profit": "-1791961000000",
+      "revenue": "9066171000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002376",
+    "financial_summary": {
+      "revenue": "7305933000000",
+      "operating_profit": "-2882084000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001677",
+    "financial_summary": {
+      "revenue": "5088111000000",
+      "operating_profit": "-3402302000000"
+    }
+  },
+  {
+    "ticker": "000660",
+    "stock_name": "SK하이닉스",
+    "report_date": "2023-03-21",
+    "report_type": "사업보고서",
+    "rcept_no": "20230321001209",
+    "financial_summary": {
+      "revenue": "44621568000000",
+      "operating_profit": "6809417000000",
+      "net_income": "2229560000000"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002286",
+    "financial_summary": {
+      "operating_profit": "338578425778",
+      "net_income": "761822272046",
+      "revenue": "1187075475928"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003571",
+    "financial_summary": {
+      "operating_profit": "434510778135",
+      "net_income": "497353918009",
+      "revenue": "1156904189162"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001936",
+    "financial_summary": {
+      "operating_profit": "221299256140",
+      "net_income": "179361788791",
+      "revenue": "946903318921"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2024-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20240307000835",
+    "financial_summary": {
+      "operating_profit": "1113680009715",
+      "net_income": "0",
+      "revenue": "3694588767068"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002501",
+    "financial_summary": {
+      "operating_profit": "318531252670",
+      "net_income": "0",
+      "revenue": "1033973428953"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002651",
+    "financial_summary": {
+      "revenue": "866184569567",
+      "operating_profit": "253439139660"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002481",
+    "financial_summary": {
+      "revenue": "720922039328",
+      "operating_profit": "191741706592"
+    }
+  },
+  {
+    "ticker": "207940",
+    "stock_name": "삼성바이오로직스",
+    "report_date": "2023-03-09",
+    "report_type": "사업보고서",
+    "rcept_no": "20230309000835",
+    "financial_summary": {
+      "revenue": "3001295197683",
+      "operating_profit": "983627394377",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002593",
+    "financial_summary": {
+      "operating_profit": "3580900000000",
+      "revenue": "42928332000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004199",
+    "financial_summary": {
+      "operating_profit": "4279136000000",
+      "revenue": "45020581000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001860",
+    "financial_summary": {
+      "operating_profit": "3557362000000",
+      "revenue": "40658539000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2024-03-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20240314001531",
+    "financial_summary": {
+      "operating_profit": "15126901000000",
+      "net_income": "310584000000",
+      "revenue": "162663579000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2024-03-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20240314001466",
+    "financial_summary": {
+      "operating_profit": "15126901000000",
+      "net_income": "310584000000",
+      "revenue": "162663579000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2024-03-13",
+    "report_type": "사업보고서",
+    "rcept_no": "20240313001451",
+    "financial_summary": {
+      "operating_profit": "15126901000000",
+      "net_income": "310584000000",
+      "revenue": "162663579000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002201",
+    "financial_summary": {
+      "operating_profit": "3821799000000",
+      "revenue": "41002663000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002457",
+    "financial_summary": {
+      "revenue": "42249695000000",
+      "operating_profit": "4237931000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002403",
+    "financial_summary": {
+      "revenue": "37778693000000",
+      "operating_profit": "3592699000000"
+    }
+  },
+  {
+    "ticker": "005380",
+    "stock_name": "현대차",
+    "report_date": "2023-03-15",
+    "report_type": "사업보고서",
+    "rcept_no": "20230315001030",
+    "financial_summary": {
+      "revenue": "142527535000000",
+      "operating_profit": "9819769000000",
+      "net_income": "7364364000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002124",
+    "financial_summary": {
+      "operating_profit": "2881280000000",
+      "revenue": "26519877000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004358",
+    "financial_summary": {
+      "operating_profit": "3643732000000",
+      "revenue": "27567907000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001819",
+    "financial_summary": {
+      "operating_profit": "3425710000000",
+      "revenue": "26212851000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2024-03-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240312000909",
+    "financial_summary": {
+      "operating_profit": "11607873000000",
+      "net_income": "",
+      "revenue": "99808420000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2024-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20240307000911",
+    "financial_summary": {
+      "operating_profit": "11607873000000",
+      "net_income": "",
+      "revenue": "99808420000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002541",
+    "financial_summary": {
+      "operating_profit": "2865097000000",
+      "revenue": "25545392000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002835",
+    "financial_summary": {
+      "revenue": "26244214000000",
+      "operating_profit": "3403042000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002201",
+    "financial_summary": {
+      "revenue": "23690660000000",
+      "operating_profit": "2873972000000"
+    }
+  },
+  {
+    "ticker": "000270",
+    "stock_name": "기아",
+    "report_date": "2023-03-09",
+    "report_type": "사업보고서",
+    "rcept_no": "20230309000734",
+    "financial_summary": {
+      "revenue": "86559029000000",
+      "operating_profit": "7233120000000",
+      "net_income": "-453000000"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002862",
+    "financial_summary": {
+      "operating_profit": "207686368229",
+      "revenue": "881933317829"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814002597",
+    "financial_summary": {
+      "operating_profit": "72487799838",
+      "revenue": "874741298986"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001214",
+    "financial_summary": {
+      "operating_profit": "15437339044",
+      "revenue": "736980406827"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2024-03-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240318000913",
+    "financial_summary": {
+      "operating_profit": "0",
+      "net_income": "0",
+      "revenue": "2176431531380"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001566",
+    "financial_summary": {
+      "operating_profit": "",
+      "revenue": "672291586724"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814001614",
+    "financial_summary": {
+      "revenue": "523978430491",
+      "operating_profit": "3366327389",
+      "net_income": "150872937404"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2023-05-12",
+    "report_type": "분기보고서",
+    "rcept_no": "20230512001099",
+    "financial_summary": {
+      "revenue": "597564003593",
+      "operating_profit": "1882700480"
+    }
+  },
+  {
+    "ticker": "068270",
+    "stock_name": "셀트리온",
+    "report_date": "2023-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20230320000842",
+    "financial_summary": {
+      "revenue": "2283967480394",
+      "operating_profit": "4730664787",
+      "net_income": "542566233270"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002845",
+    "financial_summary": {
+      "operating_profit": "743166593794",
+      "revenue": "18321368302443"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003519",
+    "financial_summary": {
+      "operating_profit": "751999831661",
+      "revenue": "18509680963034"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516002077",
+    "financial_summary": {
+      "operating_profit": "583022283295",
+      "revenue": "18051950135080"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2024-03-22",
+    "report_type": "사업보고서",
+    "rcept_no": "20240322000986",
+    "financial_summary": {
+      "operating_profit": "3531422506439",
+      "net_income": "1698092001648",
+      "revenue": "77127197108585"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2024-03-13",
+    "report_type": "사업보고서",
+    "rcept_no": "20240313001646",
+    "financial_summary": {
+      "operating_profit": "3531422506439",
+      "net_income": "1698092001648",
+      "revenue": "77127197108585"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002784",
+    "financial_summary": {
+      "operating_profit": "1196215841185",
+      "revenue": "18960831547970"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002141",
+    "financial_summary": {
+      "revenue": "20121370886008",
+      "operating_profit": "1326229119603"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001841",
+    "financial_summary": {
+      "revenue": "19380878058211",
+      "operating_profit": "704702698874"
+    }
+  },
+  {
+    "ticker": "005490",
+    "stock_name": "POSCO홀딩스",
+    "report_date": "2023-03-09",
+    "report_type": "사업보고서",
+    "rcept_no": "20230309000896",
+    "financial_summary": {
+      "revenue": "84750203702240",
+      "operating_profit": "4850053015766",
+      "net_income": "3560483538695"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001252",
+    "financial_summary": {
+      "operating_profit": "525269664443"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814002406",
+    "financial_summary": {
+      "operating_profit": "472685144828"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001974",
+    "financial_summary": {
+      "operating_profit": "555803310517"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2024-03-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240318000844",
+    "financial_summary": {
+      "operating_profit": "",
+      "net_income": "1012321527624"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001166",
+    "financial_summary": {
+      "operating_profit": "380180743422"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2023-08-11",
+    "report_type": "반기보고서",
+    "rcept_no": "20230811001363",
+    "financial_summary": {
+      "operating_profit": "372656459888"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2023-05-12",
+    "report_type": "분기보고서",
+    "rcept_no": "20230512001100",
+    "financial_summary": {
+      "operating_profit": "330492062205"
+    }
+  },
+  {
+    "ticker": "035420",
+    "stock_name": "NAVER",
+    "report_date": "2023-03-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20230314001049",
+    "financial_summary": {
+      "operating_profit": "",
+      "net_income": "-87080576160"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001516",
+    "financial_summary": {
+      "operating_profit": "539558000000",
+      "revenue": "12670398000000"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814002178",
+    "financial_summary": {
+      "operating_profit": "33754000000",
+      "revenue": "12299672000000"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2024-05-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20240514000571",
+    "financial_summary": {
+      "operating_profit": "319359000000",
+      "revenue": "11609432000000"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2024-03-15",
+    "report_type": "사업보고서",
+    "rcept_no": "20240315000957",
+    "financial_summary": {
+      "operating_profit": "2065639000000",
+      "net_income": "1337812000000"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114000753",
+    "financial_summary": {
+      "operating_profit": "5119"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002119",
+    "financial_summary": {
+      "operating_profit": "6787"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002419",
+    "financial_summary": {
+      "operating_profit": "6072"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2023-03-24",
+    "report_type": "사업보고서",
+    "rcept_no": "20230324001178",
+    "financial_summary": {
+      "operating_profit": "23407",
+      "net_income": "1845363000000"
+    }
+  },
+  {
+    "ticker": "051910",
+    "stock_name": "LG화학",
+    "report_date": "2023-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20230320000692",
+    "financial_summary": {
+      "operating_profit": "23407",
+      "net_income": "1845363000000"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002265",
+    "financial_summary": {
+      "operating_profit": "3649760734",
+      "revenue": "3935667456781"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004401",
+    "financial_summary": {
+      "operating_profit": "280220396631",
+      "revenue": "4450134429064"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516002154",
+    "financial_summary": {
+      "operating_profit": "267381306037",
+      "revenue": "5130893462037"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2024-03-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240312000853",
+    "financial_summary": {
+      "operating_profit": "1633368964768",
+      "net_income": "2009207126300",
+      "revenue": "22708300498633"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002259",
+    "financial_summary": {
+      "operating_profit": "496003670489",
+      "revenue": "5948108273682"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002680",
+    "financial_summary": {
+      "revenue": "5840582434068",
+      "operating_profit": "450192670421"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002370",
+    "financial_summary": {
+      "revenue": "5354844754963",
+      "operating_profit": "375384853209"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2023-03-13",
+    "report_type": "사업보고서",
+    "rcept_no": "20230313000726",
+    "financial_summary": {
+      "revenue": "20124069515854",
+      "operating_profit": "1808013013202",
+      "net_income": "2039361447986"
+    }
+  },
+  {
+    "ticker": "006400",
+    "stock_name": "삼성SDI",
+    "report_date": "2023-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20230307000558",
+    "financial_summary": {
+      "revenue": "20124069515854",
+      "operating_profit": "1808013013202",
+      "net_income": "2039361447986"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2024-12-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20241220000371",
+    "financial_summary": {
+      "operating_profit": "2870173816853",
+      "net_income": "2218290399862"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001924",
+    "financial_summary": {
+      "operating_profit": "736149760171"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004045",
+    "financial_summary": {
+      "operating_profit": "900371845266"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001343",
+    "financial_summary": {
+      "operating_profit": "712311322722"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2024-03-29",
+    "report_type": "사업보고서",
+    "rcept_no": "20240329002523",
+    "financial_summary": {
+      "operating_profit": "2870173816853",
+      "net_income": "2218290399862"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2024-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20240307000811",
+    "financial_summary": {
+      "operating_profit": "2870173816853",
+      "net_income": "2218290399862"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002364",
+    "financial_summary": {
+      "operating_profit": "830371118895",
+      "net_income": "1830533213586",
+      "revenue": "10971189893114"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002555",
+    "financial_summary": {
+      "revenue": "10586155914043",
+      "operating_profit": "772319230125",
+      "net_income": "186157047533"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002292",
+    "financial_summary": {
+      "revenue": "10238589057337",
+      "operating_profit": "640516775107",
+      "net_income": "751910769097"
+    }
+  },
+  {
+    "ticker": "028260",
+    "stock_name": "삼성물산",
+    "report_date": "2023-03-09",
+    "report_type": "사업보고서",
+    "rcept_no": "20230309000761",
+    "financial_summary": {
+      "revenue": "43161653399535",
+      "operating_profit": "2528524413589",
+      "net_income": "2044080219090"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001585",
+    "financial_summary": {
+      "operating_profit": "908556000000",
+      "revenue": "14001808000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003103",
+    "financial_summary": {
+      "operating_profit": "636107000000",
+      "revenue": "14655307000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001455",
+    "financial_summary": {
+      "operating_profit": "542660000000",
+      "revenue": "13869224000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2024-03-19",
+    "report_type": "사업보고서",
+    "rcept_no": "20240319000626",
+    "financial_summary": {
+      "operating_profit": "2295284000000",
+      "net_income": "3422616000000",
+      "revenue": "59254361000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2024-03-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240312000681",
+    "financial_summary": {
+      "operating_profit": "2295284000000",
+      "net_income": "3422616000000",
+      "revenue": "59254361000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002284",
+    "financial_summary": {
+      "operating_profit": "690208000000",
+      "revenue": "14230244000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814001996",
+    "financial_summary": {
+      "revenue": "15684944000000",
+      "operating_profit": "663767000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001771",
+    "financial_summary": {
+      "revenue": "14666974000000",
+      "operating_profit": "418093000000",
+      "net_income": "841801000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2023-03-21",
+    "report_type": "사업보고서",
+    "rcept_no": "20230321001162",
+    "financial_summary": {
+      "revenue": "51906293000000",
+      "operating_profit": "2026531000000",
+      "net_income": "2485254000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2023-03-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20230314000579",
+    "financial_summary": {
+      "revenue": "51906293000000",
+      "operating_profit": "2026531000000",
+      "net_income": "2485254000000"
+    }
+  },
+  {
+    "ticker": "012330",
+    "stock_name": "현대모비스",
+    "report_date": "2023-01-27",
+    "report_type": "분기보고서",
+    "rcept_no": "20230127000463",
+    "financial_summary": {
+      "revenue": "14666974000000",
+      "operating_profit": "418093000000",
+      "net_income": "841801000000"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-12-26",
+    "report_type": "분기보고서",
+    "rcept_no": "20241226000456",
+    "financial_summary": {
+      "operating_profit": "130525745048",
+      "net_income": "280799103905"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114000174",
+    "financial_summary": {
+      "operating_profit": "130525745048",
+      "net_income": "280799103905"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-09-26",
+    "report_type": "반기보고서",
+    "rcept_no": "20240926000448",
+    "financial_summary": {
+      "operating_profit": "133964231639",
+      "net_income": "175016030577"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-08-13",
+    "report_type": "반기보고서",
+    "rcept_no": "20240813001428",
+    "financial_summary": {
+      "operating_profit": "133964231639",
+      "net_income": "175016030577"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-06-21",
+    "report_type": "분기보고서",
+    "rcept_no": "20240621000676",
+    "financial_summary": {
+      "operating_profit": "120294085011",
+      "net_income": "67674669112"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516000225",
+    "financial_summary": {
+      "operating_profit": "120294085011",
+      "net_income": "67674669112"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-04-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240418000375",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-03-28",
+    "report_type": "사업보고서",
+    "rcept_no": "20240328001805",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-03-21",
+    "report_type": "사업보고서",
+    "rcept_no": "20240321000907",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320002039",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320000393",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320000386",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320000376",
+    "financial_summary": {
+      "operating_profit": "460857845673",
+      "net_income": "-1012550566010"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-12-26",
+    "report_type": "분기보고서",
+    "rcept_no": "20231226000387",
+    "financial_summary": {
+      "operating_profit": "140296343036",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114003032",
+    "financial_summary": {
+      "operating_profit": "140296343036",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002666",
+    "financial_summary": {
+      "operating_profit": "140296343036",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-09-21",
+    "report_type": "반기보고서",
+    "rcept_no": "20230921000228",
+    "financial_summary": {
+      "operating_profit": "113469781807",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002815",
+    "financial_summary": {
+      "operating_profit": "113469781807",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-06-29",
+    "report_type": "분기보고서",
+    "rcept_no": "20230629000567",
+    "financial_summary": {
+      "operating_profit": "71127921690",
+      "net_income": "-13691776684"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002409",
+    "financial_summary": {
+      "operating_profit": "71127921690",
+      "net_income": "-13691776684"
+    }
+  },
+  {
+    "ticker": "035720",
+    "stock_name": "카카오",
+    "report_date": "2023-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20230320001096",
+    "financial_summary": {
+      "operating_profit": "569355650551",
+      "net_income": "-291001596744"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002571",
+    "financial_summary": {
+      "operating_profit": "1331397000000",
+      "net_income": "-4886438000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004342",
+    "financial_summary": {
+      "operating_profit": "1359085000000",
+      "net_income": "-3100871000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001763",
+    "financial_summary": {
+      "operating_profit": "1563142000000",
+      "net_income": "-1485307000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2024-05-16",
+    "report_type": "사업보고서",
+    "rcept_no": "20240516001695",
+    "financial_summary": {
+      "operating_profit": "4693407000000",
+      "net_income": "3468356000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2024-03-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20240314001628",
+    "financial_summary": {
+      "operating_profit": "4693407000000",
+      "net_income": "3468356000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-12-28",
+    "report_type": "분기보고서",
+    "rcept_no": "20231228000569",
+    "financial_summary": {
+      "operating_profit": "1186190000000",
+      "net_income": "-4485694000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002239",
+    "financial_summary": {
+      "operating_profit": "1186190000000",
+      "net_income": "-4485694000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-09-27",
+    "report_type": "반기보고서",
+    "rcept_no": "20230927000558",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814003044",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-08-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20230814002241",
+    "financial_summary": {
+      "operating_profit": "1186190000000",
+      "net_income": "-4485694000000"
+    }
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002498",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "086790",
+    "stock_name": "하나금융지주",
+    "report_date": "2023-03-16",
+    "report_type": "사업보고서",
+    "rcept_no": "20230316001364",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002446",
+    "financial_summary": {
+      "operating_profit": "3396055000000",
+      "revenue": "25629338000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004078",
+    "financial_summary": {
+      "operating_profit": "1250262000000",
+      "revenue": "19969892000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516002201",
+    "financial_summary": {
+      "operating_profit": "1299343000000",
+      "revenue": "22850748000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2024-03-29",
+    "report_type": "사업보고서",
+    "rcept_no": "20240329002856",
+    "financial_summary": {
+      "operating_profit": "-4541648000000",
+      "net_income": "-4822549000000",
+      "revenue": "85940137000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2024-03-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240318000954",
+    "financial_summary": {
+      "operating_profit": "-4541648000000",
+      "net_income": "-4822549000000",
+      "revenue": "85940137000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002735",
+    "financial_summary": {
+      "operating_profit": "1996572000000",
+      "net_income": "-6055340000000",
+      "revenue": "23869022000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002450",
+    "financial_summary": {
+      "revenue": "194253000000",
+      "operating_profit": "-2272398000000",
+      "net_income": "-1904351000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-05-25",
+    "report_type": "분기보고서",
+    "rcept_no": "20230525000312",
+    "financial_summary": {
+      "revenue": "119520000000",
+      "operating_profit": "-6177559000000",
+      "net_income": "-4911233000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-05-25",
+    "report_type": "사업보고서",
+    "rcept_no": "20230525000309",
+    "financial_summary": {
+      "revenue": "646953000000",
+      "operating_profit": "-32655153000000",
+      "net_income": "-24429108000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002886",
+    "financial_summary": {
+      "revenue": "119520000000",
+      "operating_profit": "-6177559000000",
+      "net_income": "-4911233000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-04-10",
+    "report_type": "사업보고서",
+    "rcept_no": "20230410003765",
+    "financial_summary": {
+      "revenue": "646953000000",
+      "operating_profit": "-32655153000000",
+      "net_income": "-24429108000000"
+    }
+  },
+  {
+    "ticker": "015760",
+    "stock_name": "한국전력",
+    "report_date": "2023-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20230320001084",
+    "financial_summary": {
+      "revenue": "646953000000",
+      "operating_profit": "-32655153000000",
+      "net_income": "-24429108000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001247",
+    "financial_summary": {
+      "operating_profit": "751880000000",
+      "revenue": "22176370000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814001890",
+    "financial_summary": {
+      "operating_profit": "1196146000000",
+      "revenue": "21694366000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516000752",
+    "financial_summary": {
+      "operating_profit": "1335411000000",
+      "revenue": "21095949000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2024-03-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240318000755",
+    "financial_summary": {
+      "operating_profit": "3549074000000",
+      "net_income": "712902000000",
+      "revenue": "84227765000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001391",
+    "financial_summary": {
+      "operating_profit": "996660000000",
+      "net_income": "0",
+      "revenue": "20709340000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814001489",
+    "financial_summary": {
+      "revenue": "19998457000000",
+      "operating_profit": "741917000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001288",
+    "financial_summary": {
+      "revenue": "20415872000000",
+      "operating_profit": "1497388000000",
+      "net_income": "546529000000"
+    }
+  },
+  {
+    "ticker": "066570",
+    "stock_name": "LG전자",
+    "report_date": "2023-03-17",
+    "report_type": "사업보고서",
+    "rcept_no": "20230317000955",
+    "financial_summary": {
+      "revenue": "83467318000000",
+      "operating_profit": "3550972000000",
+      "net_income": "1863123000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-12-31",
+    "report_type": "분기보고서",
+    "rcept_no": "20241231000420",
+    "financial_summary": {
+      "net_income": "0",
+      "operating_profit": "796235000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002451",
+    "financial_summary": {
+      "net_income": "0",
+      "operating_profit": "796235000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-09-30",
+    "report_type": "반기보고서",
+    "rcept_no": "20240930000554",
+    "financial_summary": {
+      "revenue": "2109024000000",
+      "net_income": "0",
+      "operating_profit": "905530000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004014",
+    "financial_summary": {
+      "revenue": "2109024000000",
+      "net_income": "0",
+      "operating_profit": "905530000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-07-05",
+    "report_type": "분기보고서",
+    "rcept_no": "20240705000457",
+    "financial_summary": {
+      "revenue": "2112373000000",
+      "net_income": "0",
+      "operating_profit": "746310000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-06-27",
+    "report_type": "분기보고서",
+    "rcept_no": "20240627000744",
+    "financial_summary": {
+      "revenue": "2112373000000",
+      "net_income": "0",
+      "operating_profit": "746310000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-06-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240612000329",
+    "financial_summary": {
+      "revenue": "8437019000000",
+      "net_income": "0",
+      "operating_profit": "2398377000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001688",
+    "financial_summary": {
+      "revenue": "2112373000000",
+      "net_income": "0",
+      "operating_profit": "746310000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-04-29",
+    "report_type": "사업보고서",
+    "rcept_no": "20240429001222",
+    "financial_summary": {
+      "revenue": "8437019000000",
+      "net_income": "0",
+      "operating_profit": "2398377000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2024-03-13",
+    "report_type": "사업보고서",
+    "rcept_no": "20240313001502",
+    "financial_summary": {
+      "revenue": "8437019000000",
+      "net_income": "0",
+      "operating_profit": "2398377000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-12-28",
+    "report_type": "분기보고서",
+    "rcept_no": "20231228000767",
+    "financial_summary": {
+      "revenue": "2128287000000",
+      "net_income": "0",
+      "operating_profit": "596357000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114003026",
+    "financial_summary": {
+      "revenue": "2128287000000",
+      "net_income": "0",
+      "operating_profit": "596357000000"
+    }
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-09-27",
+    "report_type": "반기보고서",
+    "rcept_no": "20230927000660",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002621",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-06-29",
+    "report_type": "분기보고서",
+    "rcept_no": "20230629000651",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002761",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "032830",
+    "stock_name": "삼성생명",
+    "report_date": "2023-03-08",
+    "report_type": "사업보고서",
+    "rcept_no": "20230308000737",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002758",
+    "financial_summary": {
+      "operating_profit": "533263000000",
+      "revenue": "4532118000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814002241",
+    "financial_summary": {
+      "operating_profit": "537508000000",
+      "revenue": "4422359000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516000420",
+    "financial_summary": {
+      "operating_profit": "498489000000",
+      "net_income": "8954000000",
+      "revenue": "4474611000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2024-03-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240318000570",
+    "financial_summary": {
+      "operating_profit": "0",
+      "net_income": "1093611000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001064",
+    "financial_summary": {
+      "operating_profit": "497962000000",
+      "net_income": "308237000000",
+      "revenue": "4402610000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2023-08-11",
+    "report_type": "반기보고서",
+    "rcept_no": "20230811002096",
+    "financial_summary": {
+      "revenue": "4306383000000",
+      "operating_profit": "463409000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2023-05-12",
+    "report_type": "분기보고서",
+    "rcept_no": "20230512000710",
+    "financial_summary": {
+      "revenue": "4372227000000",
+      "operating_profit": "494778000000"
+    }
+  },
+  {
+    "ticker": "017670",
+    "stock_name": "SK텔레콤",
+    "report_date": "2023-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20230320000235",
+    "financial_summary": {
+      "revenue": "17304973000000",
+      "operating_profit": "0",
+      "net_income": "947831000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001711",
+    "financial_summary": {
+      "operating_profit": "1869897000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003880",
+    "financial_summary": {
+      "operating_profit": "1852543000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001651",
+    "financial_summary": {
+      "operating_profit": "2068236000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2024-05-02",
+    "report_type": "사업보고서",
+    "rcept_no": "20240502000081",
+    "financial_summary": {
+      "net_income": "0",
+      "operating_profit": "6100850000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2024-03-18",
+    "report_type": "사업보고서",
+    "rcept_no": "20240318000635",
+    "financial_summary": {
+      "net_income": "0",
+      "operating_profit": "6100850000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001992",
+    "financial_summary": {
+      "operating_profit": "1704133000000",
+      "net_income": "-5245400000000"
+    }
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002139",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002373",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "055550",
+    "stock_name": "신한지주",
+    "report_date": "2023-03-15",
+    "report_type": "사업보고서",
+    "rcept_no": "20230315001015",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-12-30",
+    "report_type": "분기보고서",
+    "rcept_no": "20241230000609",
+    "financial_summary": {
+      "operating_profit": "2357551000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-12-30",
+    "report_type": "분기보고서",
+    "rcept_no": "20241230000601",
+    "financial_summary": {
+      "operating_profit": "2357551000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-12-30",
+    "report_type": "분기보고서",
+    "rcept_no": "20241230000635",
+    "financial_summary": {
+      "operating_profit": "2357551000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002984",
+    "financial_summary": {
+      "operating_profit": "2357551000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004497",
+    "financial_summary": {
+      "operating_profit": "2302249000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516002265",
+    "financial_summary": {
+      "operating_profit": "2355448000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-03-26",
+    "report_type": "분기보고서",
+    "rcept_no": "20240326001023",
+    "financial_summary": {
+      "operating_profit": "2355448000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-03-26",
+    "report_type": "사업보고서",
+    "rcept_no": "20240326000894",
+    "financial_summary": {
+      "operating_profit": "9581728000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2024-03-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20240314001585",
+    "financial_summary": {
+      "operating_profit": "9581728000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002772",
+    "financial_summary": {
+      "operating_profit": "1953108000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-10-05",
+    "report_type": "반기보고서",
+    "rcept_no": "20231005000482",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-10-05",
+    "report_type": "분기보고서",
+    "rcept_no": "20231005000478",
+    "financial_summary": {
+      "operating_profit": "1953108000000"
+    }
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-10-05",
+    "report_type": "사업보고서",
+    "rcept_no": "20231005000471",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814003016",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002541",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-03-24",
+    "report_type": "사업보고서",
+    "rcept_no": "20230324001073",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "105560",
+    "stock_name": "KB금융",
+    "report_date": "2023-03-16",
+    "report_type": "사업보고서",
+    "rcept_no": "20230316001417",
+    "financial_summary": {}
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2024-11-13",
+    "report_type": "분기보고서",
+    "rcept_no": "20241113000353",
+    "financial_summary": {
+      "operating_profit": "1461355000000",
+      "revenue": "3551980000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2024-08-13",
+    "report_type": "반기보고서",
+    "rcept_no": "20240813000872",
+    "financial_summary": {
+      "operating_profit": "644381000000",
+      "revenue": "2663432000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2024-05-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20240514001580",
+    "financial_summary": {
+      "operating_profit": "407001000000",
+      "revenue": "2329865000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2024-05-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20240514000756",
+    "financial_summary": {
+      "operating_profit": "407001000000",
+      "revenue": "2329865000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2024-03-28",
+    "report_type": "사업보고서",
+    "rcept_no": "20240328001188",
+    "financial_summary": {
+      "operating_profit": "584770000000",
+      "net_income": "0",
+      "revenue": "8400969000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320001402",
+    "financial_summary": {
+      "operating_profit": "584770000000",
+      "net_income": "0",
+      "revenue": "8400969000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2023-11-10",
+    "report_type": "분기보고서",
+    "rcept_no": "20231110000589",
+    "financial_summary": {
+      "operating_profit": "75816000000",
+      "net_income": "705609000000",
+      "revenue": "2126599000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2023-08-10",
+    "report_type": "반기보고서",
+    "rcept_no": "20230810000859",
+    "financial_summary": {
+      "revenue": "2129988000000",
+      "operating_profit": "160218000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2023-07-14",
+    "report_type": "사업보고서",
+    "rcept_no": "20230714000061",
+    "financial_summary": {
+      "revenue": "18582770000000",
+      "operating_profit": "9951555000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001036",
+    "financial_summary": {
+      "revenue": "2081561000000",
+      "operating_profit": "306916000000",
+      "net_income": "285315000000"
+    }
+  },
+  {
+    "ticker": "011200",
+    "stock_name": "HMM",
+    "report_date": "2023-03-23",
+    "report_type": "사업보고서",
+    "rcept_no": "20230323001372",
+    "financial_summary": {
+      "revenue": "18582770000000",
+      "operating_profit": "9951555000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001571",
+    "financial_summary": {
+      "operating_profit": "-423337809000",
+      "revenue": "17657045387000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814002981",
+    "financial_summary": {
+      "operating_profit": "-45842439000",
+      "revenue": "18799113475000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2024-05-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20240514001259",
+    "financial_summary": {
+      "operating_profit": "624735801000",
+      "revenue": "18855139067000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320000950",
+    "financial_summary": {
+      "operating_profit": "2807",
+      "net_income": "256250365000",
+      "revenue": "77288485864000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002247",
+    "financial_summary": {
+      "operating_profit": "1563071516000",
+      "net_income": "729613504000",
+      "revenue": "19889059283000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2023-08-11",
+    "report_type": "반기보고서",
+    "rcept_no": "20230811002155",
+    "financial_summary": {
+      "revenue": "18727247535000",
+      "operating_profit": "-106797130000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001935",
+    "financial_summary": {
+      "revenue": "19142878672000",
+      "operating_profit": "374992462000"
+    }
+  },
+  {
+    "ticker": "096770",
+    "stock_name": "SK이노베이션",
+    "report_date": "2023-03-22",
+    "report_type": "사업보고서",
+    "rcept_no": "20230322000906",
+    "financial_summary": {
+      "revenue": "78056939448000",
+      "operating_profit": "18510",
+      "net_income": "1895179127000"
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001541",
+    "financial_summary": {
+      "operating_profit": "476714000000"
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004439",
+    "financial_summary": {
+      "operating_profit": "309408000000"
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001596",
+    "financial_summary": {
+      "operating_profit": "422628000000"
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2024-03-19",
+    "report_type": "사업보고서",
+    "rcept_no": "20240319000703",
+    "financial_summary": {
+      "operating_profit": "",
+      "net_income": "1414258000000"
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001758",
+    "financial_summary": {
+      "operating_profit": ""
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002784",
+    "financial_summary": {
+      "operating_profit": ""
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001874",
+    "financial_summary": {
+      "operating_profit": ""
+    }
+  },
+  {
+    "ticker": "003550",
+    "stock_name": "LG",
+    "report_date": "2023-03-21",
+    "report_type": "사업보고서",
+    "rcept_no": "20230321001235",
+    "financial_summary": {
+      "operating_profit": "597215000000",
+      "net_income": "2115750000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002693",
+    "financial_summary": {
+      "operating_profit": "84877000000",
+      "revenue": "30637299000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004071",
+    "financial_summary": {
+      "operating_profit": "7155000000",
+      "revenue": "31197130000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001917",
+    "financial_summary": {
+      "operating_profit": "91304000000",
+      "revenue": "33026813000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2024-03-19",
+    "report_type": "사업보고서",
+    "rcept_no": "20240319000757",
+    "financial_summary": {
+      "operating_profit": "-18682",
+      "net_income": "0",
+      "revenue": "131237878000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2023-11-23",
+    "report_type": "분기보고서",
+    "rcept_no": "20231123000475",
+    "financial_summary": {
+      "operating_profit": "910794000000",
+      "net_income": "468890000000",
+      "revenue": "33864045000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002831",
+    "financial_summary": {
+      "operating_profit": "910794000000",
+      "net_income": "468890000000",
+      "revenue": "33864045000000"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002749",
+    "financial_summary": {
+      "revenue": "31923219000000",
+      "operating_profit": "-2557"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002655",
+    "financial_summary": {
+      "revenue": "32702586000000",
+      "operating_profit": "1946"
+    }
+  },
+  {
+    "ticker": "034730",
+    "stock_name": "SK",
+    "report_date": "2023-03-21",
+    "report_type": "사업보고서",
+    "rcept_no": "20230321001347",
+    "financial_summary": {
+      "revenue": "134551641000000",
+      "operating_profit": "16283",
+      "net_income": "3966176000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001752",
+    "financial_summary": {
+      "operating_profit": "464110000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004236",
+    "financial_summary": {
+      "operating_profit": "493986000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001750",
+    "financial_summary": {
+      "operating_profit": "506500000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320002050",
+    "financial_summary": {
+      "operating_profit": "1649774000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320001386",
+    "financial_summary": {
+      "operating_profit": "1649774000000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114001331",
+    "financial_summary": {
+      "operating_profit": "321933000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002427",
+    "financial_summary": {
+      "operating_profit": "576108000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515002418",
+    "financial_summary": {
+      "operating_profit": "486105000000"
+    }
+  },
+  {
+    "ticker": "030200",
+    "stock_name": "KT",
+    "report_date": "2023-03-23",
+    "report_type": "사업보고서",
+    "rcept_no": "20230323001449",
+    "financial_summary": {
+      "operating_profit": "1690088000000",
+      "net_income": "125165000000"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002782",
+    "financial_summary": {
+      "operating_profit": "252799592132",
+      "revenue": "3569686299284"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003504",
+    "financial_summary": {
+      "operating_profit": "220919767275",
+      "revenue": "3368954228185"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001677",
+    "financial_summary": {
+      "operating_profit": "225867035498",
+      "revenue": "3247267716579"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2024-03-29",
+    "report_type": "사업보고서",
+    "rcept_no": "20240329003204",
+    "financial_summary": {
+      "operating_profit": "808230946594",
+      "net_income": "0",
+      "revenue": "13276844204872"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2024-03-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240312000879",
+    "financial_summary": {
+      "operating_profit": "808230946594",
+      "net_income": "0",
+      "revenue": "13276844204872"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002250",
+    "financial_summary": {
+      "operating_profit": "193041540467",
+      "revenue": "3208060364091"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002560",
+    "financial_summary": {
+      "revenue": "3290765311027",
+      "operating_profit": "206362081305"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001868",
+    "financial_summary": {
+      "revenue": "3400922518733",
+      "operating_profit": "194294612224"
+    }
+  },
+  {
+    "ticker": "018260",
+    "stock_name": "삼성에스디에스",
+    "report_date": "2023-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20230307000606",
+    "financial_summary": {
+      "revenue": "17234749537662",
+      "operating_profit": "916074023314",
+      "net_income": "30267842482"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114002537",
+    "financial_summary": {
+      "operating_profit": "1566",
+      "revenue": "2615317199767"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814004285",
+    "financial_summary": {
+      "operating_profit": "2310",
+      "revenue": "2580132472693"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516002024",
+    "financial_summary": {
+      "operating_profit": "2441",
+      "revenue": "2624288611066"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2024-03-29",
+    "report_type": "사업보고서",
+    "rcept_no": "20240329002895",
+    "financial_summary": {
+      "operating_profit": "458363924869",
+      "net_income": "27525418561",
+      "revenue": "8909448483915"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2024-03-12",
+    "report_type": "사업보고서",
+    "rcept_no": "20240312000778",
+    "financial_summary": {
+      "operating_profit": "458363924869",
+      "net_income": "27525418561",
+      "revenue": "8909448483915"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002199",
+    "financial_summary": {
+      "operating_profit": "2029",
+      "revenue": "2360940580778"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2023-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20230814002550",
+    "financial_summary": {
+      "revenue": "2220522779470",
+      "operating_profit": "1589"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001743",
+    "financial_summary": {
+      "revenue": "2021762829146",
+      "operating_profit": "1512"
+    }
+  },
+  {
+    "ticker": "009150",
+    "stock_name": "삼성전기",
+    "report_date": "2023-03-07",
+    "report_type": "사업보고서",
+    "rcept_no": "20230307000653",
+    "financial_summary": {
+      "revenue": "9424551868027",
+      "operating_profit": "13414",
+      "net_income": "980551642127"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2024-11-13",
+    "report_type": "분기보고서",
+    "rcept_no": "20241113000731",
+    "financial_summary": {
+      "operating_profit": "149979552892",
+      "revenue": "3206651309213"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814000817",
+    "financial_summary": {
+      "operating_profit": "268723597830",
+      "revenue": "3058166231058"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2024-05-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20240514001401",
+    "financial_summary": {
+      "operating_profit": "184518281418",
+      "revenue": "2375364686871"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2024-03-28",
+    "report_type": "사업보고서",
+    "rcept_no": "20240328001400",
+    "financial_summary": {
+      "operating_profit": "659935424598",
+      "net_income": "0",
+      "revenue": "9704521343024"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2024-03-11",
+    "report_type": "사업보고서",
+    "rcept_no": "20240311000892",
+    "financial_summary": {
+      "operating_profit": "659935424598",
+      "net_income": "0",
+      "revenue": "9704521343024"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002871",
+    "financial_summary": {
+      "operating_profit": "160419187852",
+      "revenue": "2293239505769"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2023-08-11",
+    "report_type": "반기보고서",
+    "rcept_no": "20230811002242",
+    "financial_summary": {
+      "operating_profit": "155714424546"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2023-05-18",
+    "report_type": "분기보고서",
+    "rcept_no": "20230518000337",
+    "financial_summary": {
+      "operating_profit": "145757284544"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001843",
+    "financial_summary": {
+      "operating_profit": "145757284544"
+    }
+  },
+  {
+    "ticker": "010130",
+    "stock_name": "고려아연",
+    "report_date": "2023-03-09",
+    "report_type": "사업보고서",
+    "rcept_no": "20230309000731",
+    "financial_summary": {
+      "operating_profit": "919171130822"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001957",
+    "financial_summary": {
+      "operating_profit": "470229012441",
+      "revenue": "2435262048510"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814002602",
+    "financial_summary": {
+      "operating_profit": "420037687992",
+      "revenue": "2317897362730"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516001725",
+    "financial_summary": {
+      "operating_profit": "398743307317",
+      "revenue": "2127259809625"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2024-03-25",
+    "report_type": "사업보고서",
+    "rcept_no": "20240325000791",
+    "financial_summary": {
+      "operating_profit": "1327945320791",
+      "net_income": "720217649290",
+      "revenue": "8939621475507"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320001381",
+    "financial_summary": {
+      "operating_profit": "1327945320791",
+      "net_income": "720217649290",
+      "revenue": "8939621475507"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114000510",
+    "financial_summary": {
+      "operating_profit": "396377269196",
+      "net_income": "0",
+      "revenue": "2340056955401"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2023-08-11",
+    "report_type": "반기보고서",
+    "rcept_no": "20230811001514",
+    "financial_summary": {
+      "revenue": "2263456312718",
+      "operating_profit": "248220819399",
+      "net_income": "230966620906"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001970",
+    "financial_summary": {
+      "revenue": "2104078343832",
+      "operating_profit": "190938507425",
+      "net_income": "95872825755"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2023-03-24",
+    "report_type": "사업보고서",
+    "rcept_no": "20230324001266",
+    "financial_summary": {
+      "revenue": "8394203036511",
+      "operating_profit": "705818089039",
+      "net_income": "690248871529"
+    }
+  },
+  {
+    "ticker": "161390",
+    "stock_name": "한국타이어앤테크놀로지",
+    "report_date": "2023-03-24",
+    "report_type": "사업보고서",
+    "rcept_no": "20230324001066",
+    "financial_summary": {
+      "revenue": "8394203036511",
+      "operating_profit": "705818089039",
+      "net_income": "690248871529"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2024-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20241114001032",
+    "financial_summary": {
+      "operating_profit": "357228310000",
+      "revenue": "8355839801000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2024-08-14",
+    "report_type": "반기보고서",
+    "rcept_no": "20240814003982",
+    "financial_summary": {
+      "operating_profit": "349695174000",
+      "revenue": "8282262877000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2024-05-16",
+    "report_type": "분기보고서",
+    "rcept_no": "20240516002122",
+    "financial_summary": {
+      "operating_profit": "265404849000",
+      "revenue": "7760519871000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2024-03-29",
+    "report_type": "사업보고서",
+    "rcept_no": "20240329001908",
+    "financial_summary": {
+      "operating_profit": "1163112035000",
+      "net_income": "0",
+      "revenue": "33132821374000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2024-03-20",
+    "report_type": "사업보고서",
+    "rcept_no": "20240320000001",
+    "financial_summary": {
+      "operating_profit": "1163112035000",
+      "net_income": "0",
+      "revenue": "33132821374000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2024-03-15",
+    "report_type": "사업보고서",
+    "rcept_no": "20240315000786",
+    "financial_summary": {
+      "operating_profit": "1163112035000",
+      "net_income": "0",
+      "revenue": "33132821374000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2023-11-14",
+    "report_type": "분기보고서",
+    "rcept_no": "20231114002212",
+    "financial_summary": {
+      "operating_profit": "311745693000",
+      "net_income": "195199124000",
+      "revenue": "8045854935000"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2023-08-11",
+    "report_type": "반기보고서",
+    "rcept_no": "20230811002332",
+    "financial_summary": {
+      "revenue": "8870945828000",
+      "operating_profit": "357158778000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2023-05-15",
+    "report_type": "분기보고서",
+    "rcept_no": "20230515001613",
+    "financial_summary": {
+      "revenue": "8306594595000",
+      "operating_profit": "279562235000",
+      "net_income": "0"
+    }
+  },
+  {
+    "ticker": "047050",
+    "stock_name": "포스코인터내셔널",
+    "report_date": "2023-03-10",
+    "report_type": "사업보고서",
+    "rcept_no": "20230310000736",
+    "financial_summary": {
+      "revenue": "37989588330000",
+      "operating_profit": "902507009000",
+      "net_income": "0"
+    }
+  }
+]
