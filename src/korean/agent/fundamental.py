@@ -1,8 +1,9 @@
 """
 펀더멘털 에이전트
-OpenDART 재무 수치 + LangChain RAG(보고서 원문) → Groq/Llama 분석 (무료)
+OpenDART 재무 수치 + LangChain RAG(보고서 원문) → Claude Haiku 분석 (학교 제공)
 """
 import os
+import re
 import sys
 from datetime import datetime
 
@@ -10,7 +11,7 @@ _THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
 _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
 sys.path.insert(0, _KOREAN_DIR)
 
-from config import GROQ_API_KEY, MODELS
+from config import ANTHROPIC_API_KEY, MODELS
 
 # 지연 초기화 — API 키 없어도 import 성공
 _client = None
@@ -19,10 +20,10 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        from groq import Groq
-        if not GROQ_API_KEY:
-            raise RuntimeError("GROQ_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
-        _client = Groq(api_key=GROQ_API_KEY)
+        import anthropic
+        if not ANTHROPIC_API_KEY:
+            raise RuntimeError("ANTHROPIC_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        _client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     return _client
 
 
@@ -48,17 +49,24 @@ def _get_financial_data(ticker: str) -> dict:
         corp_code = get_corp_code(ticker)
         if not corp_code:
             return {}
-        # 사업보고서는 전년도 실적 → 현재 연도 - 1
         fin_year = str(datetime.now().year - 1)
         return fetch_financial_summary(corp_code, fin_year, "11011")
     except Exception:
         return {}
 
 
+def _parse_confidence(text: str) -> float:
+    """LLM 출력에서 신뢰도 값 추출 (0.0~1.0)"""
+    m = re.search(r'신뢰도\s*[:：]\s*([0-9]+\.?[0-9]*)', text)
+    if m:
+        return min(max(float(m.group(1)), 0.0), 1.0)
+    return 0.5
+
+
 def fundamental_agent(ticker: str, stock_name: str) -> tuple:
     """
     Returns:
-        (result_dict, rag_doc_list)
+        (result_dict, rag_text_list)
     """
     fin = _get_financial_data(ticker)
     rag_text, rag_docs = _get_rag_context(ticker, stock_name)
@@ -86,18 +94,18 @@ def fundamental_agent(ticker: str, stock_name: str) -> tuple:
 근거: 2문장 이내 (문서 인용 포함)"""
 
     try:
-        resp = _get_client().chat.completions.create(
-            model=MODELS["groq"],
-            messages=[{"role": "user", "content": prompt}],
+        resp = _get_client().messages.create(
+            model=MODELS["claude"],
             max_tokens=300,
-            temperature=0.1,
+            messages=[{"role": "user", "content": prompt}],
         )
-        text = resp.choices[0].message.content.strip()
+        text = resp.content[0].text.strip()
         signal = 1 if "매수" in text else (-1 if "매도" in text else 0)
         return {
             "signal":     signal,
+            "confidence": _parse_confidence(text),
             "raw_output": text,
             "summary":    text.split("근거:")[-1].strip()[:120] if "근거:" in text else text[:120],
         }, rag_docs
     except Exception as e:
-        return {"signal": 0, "raw_output": f"[ERROR] {e}", "summary": "분석 실패"}, []
+        return {"signal": 0, "confidence": 0.0, "raw_output": f"[ERROR] {e}", "summary": "분석 실패"}, []

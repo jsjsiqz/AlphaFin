@@ -10,11 +10,21 @@ _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
 sys.path.insert(0, _KOREAN_DIR)
 
 from config import OPENAI_API_KEY, MODELS
-from openai import OpenAI
 
-_client = OpenAI(api_key=OPENAI_API_KEY)
+# 지연 초기화 — API 키 없어도 import 성공
+_client = None
 
 _SIGNAL_KR = {1: "매수", -1: "매도", 0: "중립"}
+
+
+def _get_client():
+    global _client
+    if _client is None:
+        from openai import OpenAI
+        if not OPENAI_API_KEY:
+            raise RuntimeError("OPENAI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        _client = OpenAI(api_key=OPENAI_API_KEY)
+    return _client
 
 
 def synthesizer(state: dict) -> str:
@@ -38,8 +48,8 @@ def synthesizer(state: dict) -> str:
     fund_signal = _SIGNAL_KR.get(fund.get("signal", 0), "중립")
     sent_signal = "긍정" if sent.get("signal", 0) > 0 else "부정"
 
-    # RAG 컨텍스트 요약 (상위 2개 청크만 사용)
-    rag_summary = "\n".join(rag_ctx[:2]) if rag_ctx else "추가 문서 없음"
+    # RAG 컨텍스트 요약 (상위 2개 청크 — 문자열 리스트)
+    rag_summary = "\n".join(str(c) for c in rag_ctx[:2]) if rag_ctx else "추가 문서 없음"
 
     stage1 = sent.get("stage1_data", {})
     stage1_info = (
@@ -78,7 +88,7 @@ def synthesizer(state: dict) -> str:
 주의사항: 리스크 1가지
 """
     try:
-        resp = _client.chat.completions.create(
+        resp = _get_client().chat.completions.create(
             model=MODELS["openai"],
             messages=[{"role": "user", "content": prompt}],
             max_tokens=400,

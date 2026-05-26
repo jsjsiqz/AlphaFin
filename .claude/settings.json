@@ -5,7 +5,7 @@
       "Bash(pip show *)",
       "Bash(python -c ' *)",
       "Bash(python -c \"import langchain; print\\(langchain.__version__\\)\")",
-      "Bash(python -c \"import google.genai; print\\('google.genai version:', google.genai.__version__\\)\")"
+      "Bash(python -c \"import anthropic; print\\('anthropic version:', anthropic.__version__\\)\")"
     ],
     "additionalDirectories": [
       "c:\\AlphaFin\\src\\korean"

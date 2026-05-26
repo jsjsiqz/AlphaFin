@@ -5,8 +5,7 @@
 pykrx
 
 # ── LLM API ─────────────────────────────────────────────────────
-google-genai               # Gemini 최신 SDK — 무료 (Stage 1 추론)
-groq                       # Groq / Llama 3.3 — 무료 (Stage 1 + 에이전트)
+anthropic                  # Claude Haiku — 학교 제공 (Stage 1 + 에이전트)
 openai                     # GPT-4o-mini + 임베딩 — 합성기 전용 (~$0.05 총액)
 
 # ── LangChain RAG (무료) ─────────────────────────────────────────
