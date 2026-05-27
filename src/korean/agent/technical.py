@@ -3,14 +3,8 @@
 pykrx 60일 주가 데이터 → MACD / 이동평균 / RSI 분석
 (RAG 불필요 — 수치 기반 결정적 분석)
 """
-import os
-import sys
 import pandas as pd
 import numpy as np
-
-_THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
-_KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
-sys.path.insert(0, _KOREAN_DIR)
 
 from pykrx import stock as pykrx_stock
 

@@ -21,7 +21,6 @@ def _get_client():
     global _client
     if _client is None:
         from openai import OpenAI
-        import os
         api_key = os.environ.get("OPENAI_API_KEY", "")
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
