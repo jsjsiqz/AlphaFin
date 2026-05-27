@@ -31,8 +31,10 @@
 |---|---|
 | OpenDART, 네이버 API, pykrx | **모두 무료** |
 | LangChain, Chroma, Streamlit, n8n | **모두 무료** |
-| Claude Haiku (Anthropic) | **학교 제공** |
-| OpenAI (임베딩 + 합성기 전용) | **~$0.05 / 프로젝트 전체** |
+| Claude Haiku (Anthropic) | **학교 제공** — Stage 1 배치 추론 전용 |
+| OpenAI (임베딩 + 에이전트 + 합성기) | **~$0.10 / 프로젝트 전체** |
+
+> **현재 운용**: Anthropic 크레딧 소진으로 에이전트(펀더멘털·감성·합성기)는 GPT-4o-mini 단일 운용 중.
 
 ---
 
@@ -42,8 +44,8 @@
 [선택]  LangChain     — RAG 핵심 (Document 로더·청킹·Retriever). 대체 불가.
 [선택]  Chroma        — 로컬 벡터DB. 서버·비용 없음. 인덱싱 3분이면 구축.
 [선택]  n8n           — 스케줄 자동화 + Telegram 알림. 이미 보유 → 추가 비용 없음.
-[선택]  Claude(Haiku) — Stage 1 추론 + 에이전트 sub-분석 (학교 제공).
-[선택]  GPT-4o-mini   — 최종 합성기 + 임베딩만 사용. 품질·비용 최적점.
+[선택]  Claude(Haiku) — Stage 1 배치 추론 전용 (학교 제공).
+[선택]  GPT-4o-mini   — 에이전트(펀더멘털·감성·합성기) + 임베딩. 품질·비용 최적점.
 [제외]  LangGraph     — 고정 선형 파이프라인에 불필요한 복잡도.
                         순수 Python 함수로 동일한 멀티에이전트 구현.
 [제외]  Supabase      — Chroma와 중복. 팀 공유 필요 시에만 선택 확장.
@@ -117,7 +119,7 @@
 │  │ 기술 에이전트 │  │ 펀더멘털 에이전트  │  │  감성 에이전트  │ │
 │  │ pykrx 60일   │  │ RAG(opendart) 검색 │  │ RAG(news) 검색  │ │
 │  │ MACD/MA/RSI  │  │ + OpenDART 수치    │  │ + Stage1 예측   │ │
-│  │ → 신호 계산  │  │ → Claude 분석      │  │ → Claude 분류     │ │
+│  │ → 신호 계산  │  │ → GPT-4o-mini 분석 │  │ → GPT-4o-mini   │ │
 │  │ (LLM 없음)   │  │                    │  │                 │ │
 │  └──────┬───────┘  └─────────┬──────────┘  └────────┬────────┘ │
 │         └──────────────────┬─┘────────────────────────┘         │
@@ -189,9 +191,11 @@ def run(ticker: str) -> AgentState:
 | 에이전트 | LLM | 이유 |
 |---|---|---|
 | 기술 에이전트 | **없음** | MACD·RSI는 수식으로 결정적 계산 |
-| 펀더멘털 에이전트 | **Claude Haiku** (학교 제공) | RAG 보고서 문서 해석 |
-| 감성 에이전트 | **Claude Haiku** (학교 제공) | 뉴스 감성 분류 + Stage1 참조 |
+| 펀더멘털 에이전트 | **GPT-4o-mini** | RAG 보고서 문서 해석 |
+| 감성 에이전트 | **GPT-4o-mini** | 뉴스 감성 분류 + Stage1 참조 |
 | 합성 에이전트 | **GPT-4o-mini** | 최종 출력 품질 필요 |
+
+> Stage 1 배치 추론(`llm_inference.py`)만 Claude Haiku + GPT-4o-mini 비교 실험에 사용.
 
 ### Stage 1 → 감성 에이전트 연결
 
@@ -201,7 +205,7 @@ Stage 1 실행 → parsed_predictions.xlsx 생성
 감성 에이전트: 해당 종목의 최신 LLM 예측 조회
   예) "Claude: 상승, GPT-4o-mini: 상승 (3/3 일치)"
                          ↓
-RAG 뉴스 검색 결과 + Stage1 예측 → Claude에게 전달 → 감성 분류
+RAG 뉴스 검색 결과 + Stage1 예측 → GPT-4o-mini에게 전달 → 감성 분류
 ```
 
 ---
@@ -386,6 +390,9 @@ python agent/graph.py --ticker 005930
 python agent/graph.py --ticker 005930 --output json
 ```
 
+> **Streamlit Cloud 배포**: https://jsjsiqz-alphafin-src-korean-app.streamlit.app  
+> Secrets 설정: Streamlit Cloud 대시보드 → App settings → Secrets에 TOML 형식으로 API 키 입력
+
 ### 6. n8n 워크플로우 구성
 
 n8n UI(`http://localhost:5678`)에서 위 "n8n 자동화 설계" 섹션 참조하여 워크플로우 구성
@@ -468,8 +475,8 @@ Week 4 — 통합 + 발표
 | LLM 추론 | llm_inference.py | ✅ Claude 52.30%, GPT 53.62% |
 | 결과 파싱 | postprocess.py | ✅ parsed_predictions.xlsx |
 | 백테스트 | backtest.py | ✅ outputs/korean/backtest/ |
-| RAG 인덱스 | rag/indexer.py | ⏳ 미실행 (실행 시 ~3분, ~$0.01) |
-| 에이전트 데모 | app.py | ⏳ 미실행 |
+| RAG 인덱스 | rag/indexer.py | ✅ 904청크 (보고서 304 + 뉴스 600), Chroma 9.8MB |
+| 에이전트 데모 | app.py | ✅ Streamlit Cloud 배포 완료 |
 
 ---
 
@@ -513,8 +520,8 @@ pip install -r requirements_korean.txt
 | 패키지 | 용도 | 비용 |
 |---|---|---|
 | `pykrx` | KRX 주가 (OHLCV만 사용, 시총/지수 API는 KRX 인증 필요로 미사용) | 무료 |
-| `anthropic` | Claude Haiku — Stage 1 + 에이전트 sub-분석 | 학교 제공 |
-| `openai` | GPT-4o-mini 합성기 + text-embedding-3-small | ~$0.05 총액 |
+| `anthropic` | Claude Haiku — Stage 1 배치 추론 전용 | 학교 제공 |
+| `openai` | GPT-4o-mini 에이전트(펀더멘털·감성·합성기) + text-embedding-3-small | ~$0.10 총액 |
 | `langchain` + `langchain-core` + `langchain-text-splitters` | RAG 문서 처리 | 무료 |
 | `langchain-openai` + `langchain-chroma` | RAG 임베딩·검색 | 무료 |
 | `chromadb` | 로컬 벡터DB | 무료 |
