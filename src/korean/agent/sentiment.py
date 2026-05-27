@@ -1,6 +1,6 @@
 """
 감성 에이전트
-LangChain RAG(뉴스) + Stage 1 예측값 → Claude Haiku 감성 분류 (학교 제공)
+LangChain RAG(뉴스) + Stage 1 예측값 → GPT-4o-mini 감성 분류
 """
 import os
 import re
@@ -11,7 +11,7 @@ _THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
 _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
 sys.path.insert(0, _KOREAN_DIR)
 
-from config import ANTHROPIC_API_KEY, MODELS, OUTPUT_DIR
+from config import OPENAI_API_KEY, MODELS, OUTPUT_DIR
 
 # 지연 초기화 — API 키 없어도 import 성공
 _client = None
@@ -20,10 +20,10 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        import anthropic
-        if not ANTHROPIC_API_KEY:
-            raise RuntimeError("ANTHROPIC_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
-        _client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+        from openai import OpenAI
+        if not OPENAI_API_KEY:
+            raise RuntimeError("OPENAI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        _client = OpenAI(api_key=OPENAI_API_KEY)
     return _client
 
 
@@ -108,12 +108,13 @@ def sentiment_agent(ticker: str, stock_name: str) -> tuple:
 근거: 2문장 이내"""
 
     try:
-        resp = _get_client().messages.create(
-            model=MODELS["claude"],
-            max_tokens=300,
+        resp = _get_client().chat.completions.create(
+            model=MODELS["openai"],
             messages=[{"role": "user", "content": prompt}],
+            max_tokens=300,
+            temperature=0.2,
         )
-        text = resp.content[0].text.strip()
+        text = resp.choices[0].message.content.strip()
         signal = 1 if "긍정" in text else (-1 if "부정" in text else 0)
         return {
             "signal":      signal,
