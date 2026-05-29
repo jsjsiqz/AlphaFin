@@ -206,7 +206,7 @@ def fetch_financial_summary(corp_code: str, year: str, report_code: str = "11011
 
 # ── 전체 수집 ─────────────────────────────────────────────────────────────
 
-def build_report_db(start_date: str = "20230101", end_date: str = "20241231") -> list[dict]:
+def build_report_db(start_date: str = "20230101", end_date: str = None) -> list[dict]:
     """
     전체 종목의 공시 보고서를 수집하여 AlphaFin testdata 형식으로 반환
 
@@ -220,6 +220,10 @@ def build_report_db(start_date: str = "20230101", end_date: str = "20241231") ->
         "rcept_no": "...",
     }
     """
+    if end_date is None:
+        from datetime import date as _date
+        end_date = _date.today().strftime("%Y%m%d")
+
     save_dir = os.path.join(OUTPUT_DIR, "reports")
     os.makedirs(save_dir, exist_ok=True)
 

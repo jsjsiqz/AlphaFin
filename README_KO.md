@@ -31,10 +31,8 @@
 |---|---|
 | OpenDART, 네이버 API, pykrx | **모두 무료** |
 | LangChain, Chroma, Streamlit, n8n | **모두 무료** |
-| Claude Haiku (Anthropic) | **학교 제공** — Stage 1 배치 추론 전용 |
-| OpenAI (임베딩 + 에이전트 + 합성기) | **~$0.10 / 프로젝트 전체** |
-
-> **현재 운용**: Anthropic 크레딧 소진으로 에이전트(펀더멘털·감성·합성기)는 GPT-4o-mini 단일 운용 중.
+| Claude Haiku (Anthropic) | **학교 제공** — Stage 1 배치 추론 + 펀더멘털·감성 에이전트 |
+| OpenAI (임베딩 + 합성기) | **~$0.01~$0.10 / 프로젝트 전체** |
 
 ---
 
@@ -191,11 +189,11 @@ def run(ticker: str) -> AgentState:
 | 에이전트 | LLM | 이유 |
 |---|---|---|
 | 기술 에이전트 | **없음** | MACD·RSI는 수식으로 결정적 계산 |
-| 펀더멘털 에이전트 | **GPT-4o-mini** | RAG 보고서 문서 해석 |
-| 감성 에이전트 | **GPT-4o-mini** | 뉴스 감성 분류 + Stage1 참조 |
-| 합성 에이전트 | **GPT-4o-mini** | 최종 출력 품질 필요 |
+| 펀더멘털 에이전트 | **Claude Haiku** | RAG 보고서 문서 해석 (학교 제공 키) |
+| 감성 에이전트 | **Claude Haiku** | 뉴스 감성 분류 + Stage1 참조 (학교 제공 키) |
+| 합성 에이전트 | **GPT-4o-mini** | 최종 자연어 출력 품질 필요 |
 
-> Stage 1 배치 추론(`llm_inference.py`)만 Claude Haiku + GPT-4o-mini 비교 실험에 사용.
+> Stage 1 배치 추론(`llm_inference.py`)은 Claude Haiku + GPT-4o-mini 비교 실험에 사용.
 
 ### Stage 1 → 감성 에이전트 연결
 
@@ -280,11 +278,11 @@ AlphaFin/
 │       │   ├── fetch_reports.py         # OpenDART 보고서 + 재무 수치
 │       │   ├── fetch_prices.py          # pykrx 월별 종가 캐시 구축 (백테스트 선행 필수)
 │       │   ├── fetch_news.py            # 네이버 뉴스 (RAG 소스)
-│       │   ├── build_testdata.py        # Stage 1 testdata 구축
 │       │   ├── test_connection.py       # API 연결 사전 확인
 │       │   └── verify_data.py           # 수집 품질 검증
 │       │
 │       ├── stage1/                      # 배치 파이프라인
+│       │   ├── build_testdata.py        # testdata 구축 (보고서+뉴스 통합)
 │       │   ├── llm_inference.py         # 멀티 LLM 방향 예측
 │       │   ├── postprocess.py           # 키워드 파싱 + 정확도
 │       │   └── backtest.py              # 롱숏 전략 백테스트
@@ -358,7 +356,7 @@ python data/test_connection.py          # 연결 확인
 python data/fetch_reports.py            # OpenDART 보고서 (~20분)
 python data/fetch_news.py               # 네이버 뉴스 (~5분)
 python data/fetch_prices.py             # 월별 종가 캐시 구축 (백테스트 사전 필요)
-python data/build_testdata.py           # 테스트 데이터 구축
+python stage1/build_testdata.py         # 테스트 데이터 구축 (보고서+뉴스 통합)
 python data/verify_data.py              # 품질 확인
 
 python stage1/llm_inference.py --models claude openai
@@ -449,33 +447,33 @@ Week 4 — 통합 + 발표
 
 | 모델 | 정확도 (%) | 판단 불가 비율 (%) |
 |---|---|---|
-| Claude Haiku 4.5 | 52.30 | 0 |
-| GPT-4o-mini | 53.62 | 0 |
+| Claude Haiku 4.5 | 53.62 | 0 |
+| GPT-4o-mini | 56.58 | 0 |
 | 랜덤 베이스라인 | 50.0 | 0 |
 
 ### 전략별 성과 지표
 
 | 전략 | 연환산수익률(%) | 샤프비율 | 최대낙폭(%) | KOSPI 초과수익(%) |
 |---|---|---|---|---|
-| Claude Haiku | 8.54 | 0.689 | -8.91 | +4.54 |
-| GPT-4o-mini | 12.55 | 1.182 | -7.61 | +8.55 |
+| Claude Haiku | 19.49 | 2.360 | -2.71 | +15.50 |
+| GPT-4o-mini | 20.53 | 2.115 | -4.43 | +16.53 |
 | KOSPI_proxy (벤치마크) | 3.99 | 0.262 | -11.36 | — |
 
 > 동일가중 롱숏 전략 (벤치마크 = 30종목 동일가중 수익률, KRX 지수 API 인증 불필요)  
-> 기간: 2023~2025.01 / 종목: KOSPI 30종목 / 포지션: 동일가중 롱숏
+> 기간: 2023~2025.12 / 종목: KOSPI 30종목 / 포지션: 동일가중 롱숏
 
 ### 파이프라인 실행 현황
 
 | 단계 | 파일 | 결과 |
 |---|---|---|
-| 보고서 수집 | fetch_reports.py | ✅ 304건 |
+| 보고서 수집 | fetch_reports.py | ✅ 504건 (2023~2025) |
 | 뉴스 수집 | fetch_news.py | ✅ 600건 |
-| 종가 캐시 | fetch_prices.py | ✅ 25개월 × 30종목 |
-| 테스트 데이터 | build_testdata.py | ✅ 304건 |
-| LLM 추론 | llm_inference.py | ✅ Claude 52.30%, GPT 53.62% |
+| 종가 캐시 | fetch_prices.py | ✅ 36개월 × 30종목 (2023~2025) |
+| 테스트 데이터 | stage1/build_testdata.py | ✅ 504건 |
+| LLM 추론 | llm_inference.py | ✅ Claude 53.62%, GPT 56.58% |
 | 결과 파싱 | postprocess.py | ✅ parsed_predictions.xlsx |
 | 백테스트 | backtest.py | ✅ outputs/korean/backtest/ |
-| RAG 인덱스 | rag/indexer.py | ✅ 904청크 (보고서 304 + 뉴스 600), Chroma 9.8MB |
+| RAG 인덱스 | rag/indexer.py | ✅ 1,090청크 (중복 제거 후, 보고서+뉴스) |
 | 에이전트 데모 | app.py | ✅ Streamlit Cloud 배포 완료 |
 
 ---

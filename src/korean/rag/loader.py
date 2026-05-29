@@ -5,6 +5,7 @@ OpenDART 보고서 + 네이버 뉴스 → LangChain Document 변환
 import os
 import sys
 import json
+from email.utils import parsedate_to_datetime
 
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -14,6 +15,16 @@ _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
 sys.path.insert(0, _KOREAN_DIR)
 
 from config import OUTPUT_DIR
+
+
+def _format_naver_date(date_str: str) -> str:
+    """네이버 API RFC 2822 날짜를 YYYY-MM-DD로 변환. 실패 시 앞 10자 반환."""
+    if not date_str:
+        return ""
+    try:
+        return parsedate_to_datetime(date_str).strftime("%Y-%m-%d")
+    except Exception:
+        return date_str[:10]
 
 
 def load_reports() -> list:
@@ -63,7 +74,9 @@ def load_news() -> list:
 
     documents = []
     for n in news:
-        content = f"{n.get('title', '')}\n{n.get('description', '')}"
+        pub_date = _format_naver_date(n.get("pub_date", ""))
+        date_prefix = f"[{pub_date}] " if pub_date else ""
+        content = f"{date_prefix}{n.get('title', '')}\n{n.get('description', '')}"
         if not content.strip():
             continue
         documents.append(Document(

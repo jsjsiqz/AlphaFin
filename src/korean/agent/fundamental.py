@@ -1,6 +1,6 @@
 """
 펀더멘털 에이전트
-OpenDART 재무 수치 + LangChain RAG(보고서 원문) → GPT-4o-mini 분석
+OpenDART 재무 수치 + LangChain RAG(보고서 원문) → Claude Haiku 분석
 """
 import os
 import re
@@ -20,11 +20,11 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        from openai import OpenAI
-        api_key = os.environ.get("OPENAI_API_KEY", "")
+        import anthropic
+        api_key = os.environ.get("ANTHROPIC_API_KEY", "")
         if not api_key:
-            raise RuntimeError("OPENAI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
-        _client = OpenAI(api_key=api_key)
+            raise RuntimeError("ANTHROPIC_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        _client = anthropic.Anthropic(api_key=api_key)
     return _client
 
 
@@ -33,7 +33,10 @@ def _get_rag_context(ticker: str, stock_name: str) -> tuple:
     try:
         from rag.vectorstore import get_retriever
         retriever = get_retriever(ticker=ticker, source="opendart", k=3)
-        docs = retriever.invoke(f"{stock_name} 재무 실적 매출 영업이익 성장 전망")
+        fin_year = datetime.now().year - 1
+        docs = retriever.invoke(
+            f"{stock_name} 재무 실적 매출 영업이익 성장 전망 {fin_year}년 {fin_year - 1}년"
+        )
         texts = [d.page_content for d in docs]
         return "\n\n".join(texts), texts
     except Exception as e:
@@ -42,7 +45,7 @@ def _get_rag_context(ticker: str, stock_name: str) -> tuple:
 
 
 def _get_financial_data(ticker: str) -> dict:
-    """OpenDART 최신 재무 수치 조회 (최근 사업보고서 기준)"""
+    """OpenDART 최신 재무 수치 조회 — 최근 3개 사업연도 폴백"""
     try:
         data_dir = os.path.join(_KOREAN_DIR, "data")
         sys.path.insert(0, data_dir)
@@ -50,17 +53,26 @@ def _get_financial_data(ticker: str) -> dict:
         corp_code = get_corp_code(ticker)
         if not corp_code:
             return {}
-        fin_year = str(datetime.now().year - 1)
-        return fetch_financial_summary(corp_code, fin_year, "11011")
+        # 당해연도 사업보고서 없을 경우 전전년도까지 폴백
+        for year_offset in range(1, 4):
+            fin_year = str(datetime.now().year - year_offset)
+            data = fetch_financial_summary(corp_code, fin_year, "11011")
+            if data:
+                data["fin_year"] = fin_year
+                return data
+        return {}
     except Exception:
         return {}
 
 
 def _parse_confidence(text: str) -> float:
-    """LLM 출력에서 신뢰도 값 추출 (0.0~1.0)"""
+    """LLM 출력에서 신뢰도 값 추출 (0.0~1.0) — 백분율(80) / 소수(0.8) 모두 처리"""
     m = re.search(r'신뢰도\s*[:：]\s*([0-9]+\.?[0-9]*)', text)
     if m:
-        return min(max(float(m.group(1)), 0.0), 1.0)
+        val = float(m.group(1))
+        if val > 1.0:
+            val = val / 100.0
+        return min(max(val, 0.0), 1.0)
     return 0.5
 
 
@@ -72,10 +84,12 @@ def fundamental_agent(ticker: str, stock_name: str) -> tuple:
     fin = _get_financial_data(ticker)
     rag_text, rag_docs = _get_rag_context(ticker, stock_name)
 
+    fin_year_label = f" ({fin.get('fin_year', '')}년)" if fin.get('fin_year') else ""
     fin_section = (
         f"매출액: {fin.get('revenue', 'N/A')}원\n"
         f"영업이익: {fin.get('operating_profit', 'N/A')}원\n"
         f"당기순이익: {fin.get('net_income', 'N/A')}원"
+        f"{fin_year_label}"
     ) if fin else "재무 데이터 없음"
 
     rag_section = rag_text if rag_text else "검색된 보고서 없음"
@@ -95,13 +109,12 @@ def fundamental_agent(ticker: str, stock_name: str) -> tuple:
 근거: 2문장 이내 (문서 인용 포함)"""
 
     try:
-        resp = _get_client().chat.completions.create(
-            model=MODELS["openai"],
-            messages=[{"role": "user", "content": prompt}],
+        resp = _get_client().messages.create(
+            model=MODELS["claude"],
             max_tokens=300,
-            temperature=0.2,
+            messages=[{"role": "user", "content": prompt}],
         )
-        text = resp.choices[0].message.content.strip()
+        text = resp.content[0].text.strip()
         signal = 1 if "매수" in text else (-1 if "매도" in text else 0)
         return {
             "signal":     signal,

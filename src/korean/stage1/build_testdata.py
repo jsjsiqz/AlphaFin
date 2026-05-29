@@ -61,7 +61,7 @@ def format_news(news_list: list, max_count: int = 5) -> str:
         title = item.get("title", "").strip()
         desc  = item.get("description", "").strip()
         date  = item.get("pub_date", "")[:16]
-        lines.append(f"  [{date}] {title} — {desc[:80]}")
+        lines.append(f"  [{date}] {title} - {desc[:80]}")
     return "\n".join(lines)
 
 
