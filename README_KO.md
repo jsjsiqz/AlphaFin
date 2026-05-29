@@ -447,17 +447,17 @@ Week 4 — 통합 + 발표
 
 | 모델 | 정확도 (%) | 판단 불가 비율 (%) |
 |---|---|---|
-| Claude Haiku 4.5 | 53.62 | 0 |
-| GPT-4o-mini | 56.58 | 0 |
+| Claude Haiku 4.5 | 53.6 | 0 |
+| GPT-4o-mini | 53.6 | 0 |
 | 랜덤 베이스라인 | 50.0 | 0 |
 
 ### 전략별 성과 지표
 
 | 전략 | 연환산수익률(%) | 샤프비율 | 최대낙폭(%) | KOSPI 초과수익(%) |
 |---|---|---|---|---|
-| Claude Haiku | 19.49 | 2.360 | -2.71 | +15.50 |
-| GPT-4o-mini | 20.53 | 2.115 | -4.43 | +16.53 |
-| KOSPI_proxy (벤치마크) | 3.99 | 0.262 | -11.36 | — |
+| Claude Haiku | 20.37 | 2.100 | -4.69 | +7.76 |
+| GPT-4o-mini | 15.60 | 1.419 | -9.91 | +3.00 |
+| KOSPI_proxy (벤치마크) | 12.60 | 0.783 | -11.36 | — |
 
 > 동일가중 롱숏 전략 (벤치마크 = 30종목 동일가중 수익률, KRX 지수 API 인증 불필요)  
 > 기간: 2023~2025.12 / 종목: KOSPI 30종목 / 포지션: 동일가중 롱숏
@@ -470,7 +470,7 @@ Week 4 — 통합 + 발표
 | 뉴스 수집 | fetch_news.py | ✅ 600건 |
 | 종가 캐시 | fetch_prices.py | ✅ 36개월 × 30종목 (2023~2025) |
 | 테스트 데이터 | stage1/build_testdata.py | ✅ 504건 |
-| LLM 추론 | llm_inference.py | ✅ Claude 53.62%, GPT 56.58% |
+| LLM 추론 | llm_inference.py | ✅ Claude 53.6%, GPT 53.6% (504건 기준) |
 | 결과 파싱 | postprocess.py | ✅ parsed_predictions.xlsx |
 | 백테스트 | backtest.py | ✅ outputs/korean/backtest/ |
 | RAG 인덱스 | rag/indexer.py | ✅ 1,090청크 (중복 제거 후, 보고서+뉴스) |
