@@ -30,29 +30,44 @@ def extract_direction(text: str) -> int:
     LLM 출력 텍스트에서 방향 추출
     Returns: 1(상승), -1(하락), 0(판단 불가)
     AlphaFin의 getPredUpDownStrict() + getPredUpDownLoose() 통합
+
+    우선순위:
+    1. 텍스트 앞부분에 "상승"/"하락"이 바로 나오면 즉시 확정 (가장 신뢰도 높음)
+    2. 결론 구분자 이후 구간에서 먼저 등장한 키워드 승리
+    3. 전체 텍스트에서 먼저 등장한 키워드 승리 (단순 first-match 오류 방지)
     """
     if not text or text.startswith("[ERROR]"):
         return 0
 
-    # 결론 구분자 이후 텍스트에서 우선 탐색
+    stripped = text.strip()
+
+    # 1단계: 직접 답변 감지 (지시문: "반드시 '상승' 또는 '하락'으로만 답하고")
+    for kw, val in [("상승", 1), ("하락", -1)]:
+        if stripped.startswith(kw):
+            return val
+
+    # 2단계: 결론 구분자 이후에서 위치 기반 판단
     for marker in CONCLUSION_MARKERS:
         if marker in text:
-            idx = text.find(marker)
-            conclusion = text[idx:]
-            for kw in KEYWORDS_UP:
-                if kw in conclusion:
-                    return 1
-            for kw in KEYWORDS_DOWN:
-                if kw in conclusion:
-                    return -1
+            conclusion = text[text.find(marker):]
+            up_pos   = min((conclusion.find(kw) for kw in KEYWORDS_UP   if kw in conclusion), default=-1)
+            down_pos = min((conclusion.find(kw) for kw in KEYWORDS_DOWN if kw in conclusion), default=-1)
+            if up_pos >= 0 and down_pos >= 0:
+                return 1 if up_pos < down_pos else -1
+            if up_pos >= 0:
+                return 1
+            if down_pos >= 0:
+                return -1
 
-    # 결론 구분자 없으면 전체 텍스트에서 탐색
-    for kw in KEYWORDS_UP:
-        if kw in text:
-            return 1
-    for kw in KEYWORDS_DOWN:
-        if kw in text:
-            return -1
+    # 3단계: 전체 텍스트에서 위치 기반 판단 (먼저 등장한 키워드 승리)
+    up_pos   = min((text.find(kw) for kw in KEYWORDS_UP   if kw in text), default=-1)
+    down_pos = min((text.find(kw) for kw in KEYWORDS_DOWN if kw in text), default=-1)
+    if up_pos >= 0 and down_pos >= 0:
+        return 1 if up_pos < down_pos else -1
+    if up_pos >= 0:
+        return 1
+    if down_pos >= 0:
+        return -1
 
     return 0
 

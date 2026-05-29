@@ -1,11 +1,12 @@
 """
 감성 에이전트
-LangChain RAG(뉴스) + Stage 1 예측값 → GPT-4o-mini 감성 분류
+LangChain RAG(뉴스) + Stage 1 예측값 → Claude Haiku 감성 분류
 """
 import os
 import re
 import sys
 import pandas as pd
+from datetime import datetime
 
 _THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
 _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
@@ -20,11 +21,11 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        from openai import OpenAI
-        api_key = os.environ.get("OPENAI_API_KEY", "")
+        import anthropic
+        api_key = os.environ.get("ANTHROPIC_API_KEY", "")
         if not api_key:
-            raise RuntimeError("OPENAI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
-        _client = OpenAI(api_key=api_key)
+            raise RuntimeError("ANTHROPIC_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        _client = anthropic.Anthropic(api_key=api_key)
     return _client
 
 
@@ -33,7 +34,10 @@ def _get_news_context(ticker: str, stock_name: str) -> tuple:
     try:
         from rag.vectorstore import get_retriever
         retriever = get_retriever(ticker=ticker, source="naver_news", k=5)
-        docs = retriever.invoke(f"{stock_name} 주가 뉴스 공시 실적 전망")
+        cur_year = datetime.now().year
+        docs = retriever.invoke(
+            f"{stock_name} 주가 뉴스 공시 실적 전망 {cur_year}년 {cur_year - 1}년"
+        )
         texts = [d.page_content for d in docs]
         return "\n\n".join(texts), texts
     except Exception as e:
@@ -71,10 +75,13 @@ def _get_stage1_signal(ticker: str) -> dict:
 
 
 def _parse_confidence(text: str) -> float:
-    """LLM 출력에서 신뢰도 값 추출 (0.0~1.0)"""
+    """LLM 출력에서 신뢰도 값 추출 (0.0~1.0) — 백분율(80) / 소수(0.8) 모두 처리"""
     m = re.search(r'신뢰도\s*[:：]\s*([0-9]+\.?[0-9]*)', text)
     if m:
-        return min(max(float(m.group(1)), 0.0), 1.0)
+        val = float(m.group(1))
+        if val > 1.0:
+            val = val / 100.0
+        return min(max(val, 0.0), 1.0)
     return 0.5
 
 
@@ -109,13 +116,12 @@ def sentiment_agent(ticker: str, stock_name: str) -> tuple:
 근거: 2문장 이내"""
 
     try:
-        resp = _get_client().chat.completions.create(
-            model=MODELS["openai"],
-            messages=[{"role": "user", "content": prompt}],
+        resp = _get_client().messages.create(
+            model=MODELS["claude"],
             max_tokens=300,
-            temperature=0.2,
+            messages=[{"role": "user", "content": prompt}],
         )
-        text = resp.choices[0].message.content.strip()
+        text = resp.content[0].text.strip()
         signal = 1 if "긍정" in text else (-1 if "부정" in text else 0)
         return {
             "signal":      signal,

@@ -4,11 +4,12 @@ Stage 1 완료(fetch_reports.py + fetch_news.py) 후 실행
 
 사용법:
     cd src/korean
-    python rag/indexer.py           # 전체 인덱스 구축
+    python rag/indexer.py           # 전체 인덱스 구축 (중복 자동 스킵)
     python rag/indexer.py --reset   # 기존 인덱스 삭제 후 재구축
 """
 import os
 import sys
+import hashlib
 
 _THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
 _KOREAN_DIR = os.path.abspath(os.path.join(_THIS_DIR, ".."))
@@ -17,6 +18,17 @@ sys.path.insert(0, _THIS_DIR)
 
 from loader import load_reports, load_news, split_documents
 from vectorstore import get_vectorstore
+
+
+def _doc_id(doc) -> str:
+    """내용 + 메타데이터 기반 결정론적 ID — 동일 문서 재인덱싱 시 upsert(중복 방지)"""
+    key = (
+        doc.metadata.get("ticker", "")
+        + doc.metadata.get("report_date", doc.metadata.get("pub_date", ""))
+        + doc.metadata.get("source", "")
+        + doc.page_content[:80]
+    )
+    return hashlib.md5(key.encode("utf-8")).hexdigest()
 
 
 def build_index(reset: bool = False) -> None:
@@ -47,16 +59,30 @@ def build_index(reset: bool = False) -> None:
         vs.delete_collection()
         vs = get_vectorstore()
 
-    # 배치 저장 (API 속도 제한 대비)
+    # ID 기준 전역 중복 제거 — 같은 배치 내 혹은 배치 간 동일 ID가 있으면 Chroma가 오류를 냄
+    seen: dict[str, int] = {}
+    unique_chunks = []
+    for chunk in chunks:
+        cid = _doc_id(chunk)
+        if cid not in seen:
+            seen[cid] = 1
+            unique_chunks.append((cid, chunk))
+    dup_count = len(chunks) - len(unique_chunks)
+    if dup_count:
+        print(f"      [INFO] 중복 청크 {dup_count}개 제거 (동일 문서 재인덱싱)")
+
+    # 배치 저장 — 결정론적 ID로 upsert하여 중복 방지 (API 속도 제한 대비)
     batch_size = 100
-    for i in range(0, len(chunks), batch_size):
-        batch = chunks[i : i + batch_size]
-        vs.add_documents(batch)
-        done = min(i + batch_size, len(chunks))
-        print(f"      저장: {done}/{len(chunks)}건")
+    for i in range(0, len(unique_chunks), batch_size):
+        batch_pairs = unique_chunks[i : i + batch_size]
+        ids   = [p[0] for p in batch_pairs]
+        batch = [p[1] for p in batch_pairs]
+        vs.add_documents(batch, ids=ids)
+        done = min(i + batch_size, len(unique_chunks))
+        print(f"      저장: {done}/{len(unique_chunks)}건")
 
     print(f"\n[완료] 인덱스 구축 완료")
-    print(f"       보고서 {len(report_docs)}건 + 뉴스 {len(news_docs)}건 = 총 {len(chunks)}청크")
+    print(f"       보고서 {len(report_docs)}건 + 뉴스 {len(news_docs)}건 = 총 {len(unique_chunks)}청크 (원본 {len(chunks)}개 → 중복제거 후)")
 
 
 if __name__ == "__main__":

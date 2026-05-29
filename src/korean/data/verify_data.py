@@ -19,7 +19,7 @@ def verify():
     testdata_path = os.path.join(OUTPUT_DIR, "korean_testdata.json")
 
     if not os.path.exists(testdata_path):
-        print("❌ korean_testdata.json 없음 → build_testdata.py 먼저 실행")
+        print("[ERROR] korean_testdata.json 없음 -> build_testdata.py 먼저 실행")
         return
 
     with open(testdata_path, encoding="utf-8") as f:
@@ -37,7 +37,7 @@ def verify():
     print(f"  상승(1):  {up}건  ({up/len(data)*100:.1f}%)")
     print(f"  하락(-1): {down}건  ({down/len(data)*100:.1f}%)")
     if abs(up - down) / len(data) > 0.3:
-        print(f"  ⚠️  불균형 주의 (발표 시 명시 필요)")
+        print(f"  [WARN] 불균형 주의 (발표 시 명시 필요)")
 
     # 2. 종목별 데이터 건수
     ticker_counts = Counter(d["ticker"] for d in data)
@@ -46,7 +46,7 @@ def verify():
     print(f"\n[종목 커버리지]")
     print(f"  수집된 종목: {len(ticker_counts)}/30개")
     if missing:
-        print(f"  ⚠️  데이터 없는 종목: {', '.join(missing)}")
+        print(f"  [WARN] 데이터 없는 종목: {', '.join(missing)}")
 
     # 3. 기간 분포
     df = pd.DataFrame(data)
@@ -78,9 +78,9 @@ def verify():
 
     print("\n" + "=" * 55)
     if len(data) >= 100 and missing_fin / len(data) < 0.2:
-        print("✅ 데이터 품질 양호 → llm_inference.py 실행 가능")
+        print("[OK] 데이터 품질 양호 -> llm_inference.py 실행 가능")
     else:
-        print("⚠️  데이터 품질 확인 필요")
+        print("[WARN] 데이터 품질 확인 필요")
 
 
 if __name__ == "__main__":

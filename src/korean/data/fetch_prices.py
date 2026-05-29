@@ -148,9 +148,10 @@ def get_label(ticker: str, report_date: str) -> int:
             df_close.index = pd.to_datetime(df_close.index)
             if ticker in df_close.columns:
                 report_dt = pd.to_datetime(report_date)
-                target_month = (report_dt + pd.offsets.MonthEnd(1))
+                # Period 산술로 "다음 달 말일" 계산 — MonthEnd(1)은 월 중순 날짜를 당월 말로 롤업하므로 오프바이원 발생
+                target_month = (pd.Period(report_date, 'M') + 1).to_timestamp('M')
                 col = df_close[ticker].dropna()
-                # 보고서 월 말 → 다음 달 말 수익률
+                # 보고서 발표월 말 → 다음 달 말 수익률
                 prev = col[col.index <= report_dt.replace(day=1) + pd.offsets.MonthEnd(0)]
                 nxt  = col[col.index <= target_month]
                 if len(prev) >= 1 and len(nxt) >= 1:
