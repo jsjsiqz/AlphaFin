@@ -93,9 +93,15 @@ def process_predictions(
         save_path = os.path.join(OUTPUT_DIR, "parsed_predictions.xlsx")
 
     records = []
-    with open(pred_path, encoding="utf-8") as f:
+    with open(pred_path, encoding="utf-8", errors="replace") as f:
         for line in f:
-            records.append(json.loads(line))
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                pass  # 깨진 라인 스킵
 
     model_names = [
         k for k in records[0].keys()
