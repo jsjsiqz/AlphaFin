@@ -1,0 +1,96 @@
+{
+  "name": "AlphaFin — 1. 일일 데이터 파이프라인",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "50 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "af000001-0001-0001-0001-000000000001",
+      "name": "Schedule: 평일 08:50",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "command": "python C:\\AlphaFin\\src\\korean\\data\\fetch_reports.py"
+      },
+      "id": "af000001-0001-0001-0001-000000000002",
+      "name": "보고서 수집 (OpenDART)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "command": "python C:\\AlphaFin\\src\\korean\\data\\fetch_news.py"
+      },
+      "id": "af000001-0001-0001-0001-000000000003",
+      "name": "뉴스 수집 (네이버)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "command": "python C:\\AlphaFin\\src\\korean\\rag\\indexer.py"
+      },
+      "id": "af000001-0001-0001-0001-000000000004",
+      "name": "RAG 인덱스 갱신 (Chroma)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "✅ AlphaFin 데이터 갱신 완료\n보고서 수집 → 뉴스 수집 → RAG 인덱스 갱신 완료\n⏰ {{ $now.toLocaleString('ko-KR') }}",
+        "additionalFields": {}
+      },
+      "id": "af000001-0001-0001-0001-000000000005",
+      "name": "Telegram: 갱신 완료 알림",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1120, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "AlphaFin Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule: 평일 08:50": {
+      "main": [
+        [{ "node": "보고서 수집 (OpenDART)", "type": "main", "index": 0 }]
+      ]
+    },
+    "보고서 수집 (OpenDART)": {
+      "main": [
+        [{ "node": "뉴스 수집 (네이버)", "type": "main", "index": 0 }]
+      ]
+    },
+    "뉴스 수집 (네이버)": {
+      "main": [
+        [{ "node": "RAG 인덱스 갱신 (Chroma)", "type": "main", "index": 0 }]
+      ]
+    },
+    "RAG 인덱스 갱신 (Chroma)": {
+      "main": [
+        [{ "node": "Telegram: 갱신 완료 알림", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

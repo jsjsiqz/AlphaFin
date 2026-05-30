@@ -4,7 +4,7 @@ API 키 및 전역 설정
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".env"))
 
 # ── LLM API Keys ───────────────────────────────────────────────────────────
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "") # 학교 제공 — Stage 1 + 에이전트
