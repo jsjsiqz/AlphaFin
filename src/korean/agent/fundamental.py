@@ -90,17 +90,34 @@ def _get_financial_data(ticker: str) -> dict:
         return {}
 
 
+def _fmt_krw(val) -> str:
+    """원화 금액을 억원/조원 단위로 포맷 — 알 수 없는 값은 N/A"""
+    if val is None or val == "" or val == "N/A":
+        return "N/A"
+    try:
+        n = int(str(val).replace(",", "").split(".")[0])
+        eok = n // 100_000_000
+        if abs(eok) >= 10_000:
+            jo = eok // 10_000
+            rem = eok % 10_000
+            return f"{jo:,}조 {rem:,}억원"
+        return f"{eok:,}억원"
+    except (ValueError, TypeError):
+        return "N/A"
+
+
 def _parse_signal(text: str) -> int:
-    """'신호:' 라인에서 매수/매도 추출 — 전체 텍스트 단순 검색보다 정확"""
+    """'신호:' 라인에서 매수/매도/중립 추출 — 전체 텍스트 단순 검색보다 정확"""
     for line in text.splitlines():
         if "신호" in line:
             clean = re.sub(r"[*_#\[\]:]", "", line)
-            # 신호 키워드 뒤에 오는 첫 번째 단어로 판단
             after = clean.split("신호")[-1].strip()
             if "매도" in after:
                 return -1
             if "매수" in after:
                 return 1
+            if "중립" in after:
+                return 0
     # 폴백: 키워드 빈도 비교
     buy  = text.count("매수")
     sell = text.count("매도")
@@ -130,12 +147,11 @@ def fundamental_agent(ticker: str, stock_name: str) -> tuple:
     fin = _get_financial_data(ticker)
     rag_text, rag_docs = _get_rag_context(ticker, stock_name)
 
-    fin_year_label = f" ({fin.get('fin_year', '')}년)" if fin.get('fin_year') else ""
+    fin_year_label = f" ({fin.get('fin_year', '')}년 기준)" if fin.get('fin_year') else ""
     fin_section = (
-        f"매출액: {fin.get('revenue', 'N/A')}원\n"
-        f"영업이익: {fin.get('operating_profit', 'N/A')}원\n"
-        f"당기순이익: {fin.get('net_income', 'N/A')}원"
-        f"{fin_year_label}"
+        f"매출액: {_fmt_krw(fin.get('revenue'))}{fin_year_label}\n"
+        f"영업이익: {_fmt_krw(fin.get('operating_profit'))}\n"
+        f"당기순이익: {_fmt_krw(fin.get('net_income'))}"
     ) if fin else "재무 데이터 없음"
 
     rag_section = rag_text if rag_text else "검색된 보고서 없음"
@@ -150,7 +166,7 @@ def fundamental_agent(ticker: str, stock_name: str) -> tuple:
 
 위 실제 문서와 수치를 근거로 {stock_name}({ticker})의 펀더멘털을 분석하세요.
 형식:
-신호: 매수 또는 매도
+신호: 매수, 중립, 매도 중 하나
 신뢰도: 0.0~1.0
 근거: 2문장 이내 (문서 인용 포함)"""
 

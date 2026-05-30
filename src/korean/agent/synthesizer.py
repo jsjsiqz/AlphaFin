@@ -50,8 +50,10 @@ def synthesizer(state: dict) -> str:
     _sent_sig = sent.get("signal", 0)
     sent_signal = "긍정" if _sent_sig > 0 else ("부정" if _sent_sig < 0 else "중립")
 
-    # RAG 컨텍스트 요약 (상위 2개 청크 — 문자열 리스트)
-    rag_summary = "\n".join(str(c) for c in rag_ctx[:2]) if rag_ctx else "추가 문서 없음"
+    # RAG 컨텍스트 요약 (상위 2개 청크)
+    def _chunk_text(c) -> str:
+        return c["text"] if isinstance(c, dict) else str(c)
+    rag_summary = "\n".join(_chunk_text(c) for c in rag_ctx[:2]) if rag_ctx else "추가 문서 없음"
 
     stage1 = sent.get("stage1_data", {})
     stage1_info = (

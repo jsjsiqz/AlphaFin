@@ -279,10 +279,12 @@ with col1:
     if tech.get("detail"):
         with st.expander("상세 지표"):
             d = tech["detail"]
-            st.markdown(f"- **현재가**: {d.get('current_price', '-'):,}원")
+            st.markdown(f"- **현재가**: {d.get('current_price', 0):,}원")
             st.markdown(f"- **MACD**: {d.get('macd_cross', '-')}")
             st.markdown(f"- **RSI**: {d.get('rsi', '-')} ({d.get('rsi_status', '-')})")
             st.markdown(f"- **20일선**: {'위' if d.get('above_ma20') else '아래'}")
+            if d.get("ma60") is not None:
+                st.markdown(f"- **60일선**: {'위' if d.get('above_ma60') else '아래'}")
 
 with col2:
     fund = result.fund_result or {}
@@ -330,9 +332,16 @@ st.divider()
 if result.rag_context:
     st.subheader("📚 RAG 참조 문서 (근거 출처)")
     st.caption(f"검색된 문서 청크 {len(result.rag_context)}개")
-    for i, chunk in enumerate(result.rag_context[:4], 1):
-        with st.expander(f"문서 {i}"):
-            st.text(chunk)
+    _source_label = {"opendart": "📋 공시보고서", "naver_news": "📰 뉴스"}
+    for i, chunk in enumerate(result.rag_context[:6], 1):
+        if isinstance(chunk, dict):
+            _src = _source_label.get(chunk.get("source", ""), "📄 문서")
+            _txt = chunk.get("text", "")
+        else:
+            _src = "📄 문서"
+            _txt = str(chunk)
+        with st.expander(f"{_src} {i} — {_txt[:40].strip()}..."):
+            st.text(_txt)
 else:
     st.info("RAG 인덱스가 구축되지 않았습니다. `python rag/indexer.py` 먼저 실행하세요.")
 
