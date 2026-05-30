@@ -31,7 +31,7 @@
 |---|---|
 | OpenDART, 네이버 API, pykrx | **모두 무료** |
 | LangChain, Chroma, Streamlit, n8n | **모두 무료** |
-| Claude Haiku (Anthropic) | **학교 제공** — Stage 1 배치 추론 + 펀더멘털·감성 에이전트 |
+| Claude Sonnet 4.6 (Anthropic) | **학교 제공** — Stage 1 배치 추론(Haiku) + 펀더멘털·감성 에이전트(Sonnet) |
 | OpenAI (임베딩 + 합성기) | **~$0.01~$0.10 / 프로젝트 전체** |
 
 ---
@@ -39,15 +39,16 @@
 ## 기술 스택 선택 근거
 
 ```
-[선택]  LangChain     — RAG 핵심 (Document 로더·청킹·Retriever). 대체 불가.
-[선택]  Chroma        — 로컬 벡터DB. 서버·비용 없음. 인덱싱 3분이면 구축.
-[선택]  n8n           — 스케줄 자동화 + Telegram 알림. 이미 보유 → 추가 비용 없음.
-[선택]  Claude(Haiku) — Stage 1 배치 추론 전용 (학교 제공).
-[선택]  GPT-4o-mini   — 에이전트(펀더멘털·감성·합성기) + 임베딩. 품질·비용 최적점.
-[제외]  LangGraph     — 고정 선형 파이프라인에 불필요한 복잡도.
-                        순수 Python 함수로 동일한 멀티에이전트 구현.
-[제외]  Supabase      — Chroma와 중복. 팀 공유 필요 시에만 선택 확장.
-[제외]  plotly        — matplotlib + Streamlit 기본 차트로 충분.
+[선택]  LangChain        — RAG 핵심 (Document 로더·청킹·Retriever). 대체 불가.
+[선택]  Chroma           — 로컬 벡터DB. 서버·비용 없음. 인덱싱 3분이면 구축.
+[선택]  n8n              — 스케줄 자동화 + Telegram 알림. 이미 보유 → 추가 비용 없음.
+[선택]  Claude Sonnet4.6 — 에이전트 분석 LLM (학교 제공). Haiku 대비 신호 정확도 향상.
+[선택]  Claude Haiku4.5  — Stage 1 배치 추론 전용 (대량 호출 비용 최소화).
+[선택]  GPT-4o-mini      — 합성기 + 임베딩 전용. 품질·비용 최적점.
+[제외]  LangGraph        — 고정 선형 파이프라인에 불필요한 복잡도.
+                           순수 Python 함수로 동일한 멀티에이전트 구현.
+[제외]  Supabase         — Chroma와 중복. 팀 공유 필요 시에만 선택 확장.
+[제외]  plotly           — matplotlib + Streamlit 기본 차트로 충분.
 ```
 
 ---
@@ -58,7 +59,7 @@
 |---|---|---|
 | 주가 데이터 | Tushare API (유료) | **pykrx (무료)** |
 | 재무 리포트 | 중국 증권사 리포트 | **OpenDART 공시 보고서** |
-| LLM | ChatGLM2-6B + LoRA 파인튜닝 | **Claude(Haiku) / GPT-4o-mini API 비교** |
+| LLM | ChatGLM2-6B + LoRA 파인튜닝 | **Claude Sonnet 4.6(에이전트) / Haiku(Stage1) / GPT-4o-mini(합성기)** |
 | 지식베이스 | FAISS (정적 샘플 200건) | **LangChain + Chroma (동적, 실수집)** |
 | 에이전트 | 없음 | **3에이전트 + 합성기 파이프라인** |
 | 자동화 | 없음 | **n8n 스케줄 + Telegram 알림** |
@@ -169,17 +170,20 @@ def run(ticker: str) -> AgentState:
 
     fund_result, fund_docs = fundamental_agent(ticker, state.stock_name)
     state.fund_result = fund_result
-    state.rag_context.extend(fund_docs)
+    # RAG 청크에 출처 메타데이터 태그 (app.py에서 📋 공시보고서 / 📰 뉴스로 표시)
+    state.rag_context.extend({"text": d, "source": "opendart"} for d in fund_docs)
 
     sent_result, sent_docs = sentiment_agent(ticker, state.stock_name)
     state.sent_result = sent_result
-    state.rag_context.extend(sent_docs)
+    state.rag_context.extend({"text": d, "source": "naver_news"} for d in sent_docs)
 
     state.recommendation = synthesizer(state.__dict__)
 
-    # 다수결 합의
+    # 다수결 합의 — 중립(0) 제외 후 방향 합산, 동률이면 중립
     signals = [tech["signal"], fund["signal"], sent["signal"]]
-    state.final_signal = 1 if sum(signals) > 0 else -1
+    valid = [s for s in signals if s != 0]
+    s = sum(valid)
+    state.final_signal = 1 if s > 0 else (-1 if s < 0 else 0)
 
     return state
 ```
@@ -189,11 +193,11 @@ def run(ticker: str) -> AgentState:
 | 에이전트 | LLM | 이유 |
 |---|---|---|
 | 기술 에이전트 | **없음** | MACD·RSI는 수식으로 결정적 계산 |
-| 펀더멘털 에이전트 | **Claude Haiku** | RAG 보고서 문서 해석 (학교 제공 키) |
-| 감성 에이전트 | **Claude Haiku** | 뉴스 감성 분류 + Stage1 참조 (학교 제공 키) |
+| 펀더멘털 에이전트 | **Claude Sonnet 4.6** | RAG 보고서 문서 해석 — Haiku 대비 신호 파싱 정확도 향상 |
+| 감성 에이전트 | **Claude Sonnet 4.6** | 뉴스 감성 분류 + Stage1 방향 신호 참조 |
 | 합성 에이전트 | **GPT-4o-mini** | 최종 자연어 출력 품질 필요 |
 
-> Stage 1 배치 추론(`llm_inference.py`)은 Claude Haiku + GPT-4o-mini 비교 실험에 사용.
+> Stage 1 배치 추론(`llm_inference.py`)은 Claude Haiku + GPT-4o-mini 비교 실험에 사용 (비용 절감).
 
 ### Stage 1 → 감성 에이전트 연결
 
@@ -201,10 +205,15 @@ def run(ticker: str) -> AgentState:
 Stage 1 실행 → parsed_predictions.xlsx 생성
                          ↓
 감성 에이전트: 해당 종목의 최신 LLM 예측 조회
-  예) "Claude: 상승, GPT-4o-mini: 상승 (3/3 일치)"
+  예) "개별 신호: claude: 상승(매수), openai: 상승(매수)
+       합의 방향: 상승(매수) (2/2 일치)
+       기준 보고서: 2025-03-31"
                          ↓
-RAG 뉴스 검색 결과 + Stage1 예측 → GPT-4o-mini에게 전달 → 감성 분류
+RAG 뉴스 검색 결과 + Stage1 방향 신호 → Claude Sonnet 4.6에게 전달 → 감성 분류
 ```
+
+> **개선 이력**: 기존에는 합의율("2/2")만 프롬프트에 전달하여 LLM이 방향을 알 수 없었음.  
+> 현재는 모델별 방향(상승/하락)과 합의 방향을 명시적으로 전달.
 
 ---
 
@@ -467,6 +476,27 @@ Week 4 — 통합 + 발표
 > 동일가중 롱숏 전략 (벤치마크 = 30종목 동일가중 수익률, KRX 지수 API 인증 불필요)  
 > 기간: 2023~2025.12 / 종목: KOSPI 30종목 / 포지션: 동일가중 롱숏
 
+### 버그 수정 이력
+
+| 커밋 | 파일 | 수정 내용 |
+|---|---|---|
+| `3e85361` | `app.py` | `st.set_page_config()` 위치 — `_ensure_rag_index()` 이전으로 이동 (Streamlit Cloud 첫 로드 오류 수정) |
+| `3e85361` | `graph.py` | 다수결 동률(`sum=0`) 시 `-1` 오반환 → 3방향 분기(`> 0 / < 0 / == 0`) |
+| `3e85361` | `fundamental.py` | `"매수" in text` 전체 검색 → `신호:` 라인 파싱으로 교체 |
+| `3e85361` | `sentiment.py` | 동일 파싱 버그 수정 + 중립 신호 처리 추가 |
+| `3e85361` | `synthesizer.py` | 감성 중립(`signal=0`) → `"부정"` 오표시 수정 |
+| `5cd2e34` | `config.py` | Claude Haiku → **Sonnet 4.6** 업그레이드 |
+| `5cd2e34` | `fundamental.py` | 재무 수치 억원/조원 포맷(`_fmt_krw`) + 중립 선택지 |
+| `5cd2e34` | `sentiment.py` | Stage1 consensus `sum=0→-1` 버그 수정 + 신호 방향 프롬프트 포함 |
+| `5cd2e34` | `technical.py` | `above_ma60` 데이터 부족 시 `above_ma20` 중복 집계 수정 |
+| `5cd2e34` | `graph.py` | RAG 청크에 출처 메타데이터 태그(`opendart`/`naver_news`) |
+| `5cd2e34` | `app.py` | RAG 문서 출처 타입(📋 공시보고서 / 📰 뉴스) 표시 |
+| `b37e209` | `rag/loader.py` | RAG 문서 재무수치 억원 포맷 + ticker 빈값 문서 스킵 + JSON 예외처리 |
+| `b37e209` | `app.py` | RAG 인덱스 빌드 실패 시 사용자 오류 메시지 표시 |
+| `b37e209` | `config.py` | `BACKTEST_END` 하드코딩 → 현재 연도 동적 계산 |
+| `b37e209` | `fetch_reports.py` | DART API 금액 빈 문자열·대시 필터링 + 첫 계정 중복 방지 |
+| `b37e209` | `postprocess.py` | 깨진 JSONL 라인 경고 출력 + 빈 records 시 명시적 예외 |
+
 ### 파이프라인 실행 현황
 
 | 단계 | 파일 | 결과 |
@@ -475,7 +505,7 @@ Week 4 — 통합 + 발표
 | 뉴스 수집 | fetch_news.py | ✅ 600건 |
 | 종가 캐시 | fetch_prices.py | ✅ 36개월 × 30종목 (2023~2025) |
 | 테스트 데이터 | stage1/build_testdata.py | ✅ 504건 |
-| LLM 추론 | llm_inference.py | ✅ Claude 53.6%, GPT 53.6% (504건 기준) |
+| LLM 추론 | llm_inference.py | ✅ Claude Haiku 53.6%, GPT 53.6% (504건 기준) |
 | 결과 파싱 | postprocess.py | ✅ parsed_predictions.xlsx |
 | 백테스트 | backtest.py | ✅ outputs/korean/backtest/ |
 | RAG 인덱스 | rag/indexer.py | ✅ 1,090청크 (중복 제거 후, 보고서+뉴스) |
@@ -523,8 +553,8 @@ pip install -r requirements.txt
 | 패키지 | 용도 | 비용 |
 |---|---|---|
 | `pykrx` | KRX 주가 (OHLCV만 사용, 시총/지수 API는 KRX 인증 필요로 미사용) | 무료 |
-| `anthropic` | Claude Haiku — Stage 1 배치 추론 전용 | 학교 제공 |
-| `openai` | GPT-4o-mini 에이전트(펀더멘털·감성·합성기) + text-embedding-3-small | ~$0.10 총액 |
+| `anthropic` | Claude Sonnet 4.6 — 펀더멘털·감성 에이전트 / Haiku — Stage 1 배치 추론 | 학교 제공 |
+| `openai` | GPT-4o-mini 합성기 + text-embedding-3-small (RAG 임베딩) | ~$0.10 총액 |
 | `langchain` + `langchain-core` + `langchain-text-splitters` | RAG 문서 처리 | 무료 |
 | `langchain-openai` + `langchain-chroma` | RAG 임베딩·검색 | 무료 |
 | `chromadb` | 로컬 벡터DB | 무료 |
