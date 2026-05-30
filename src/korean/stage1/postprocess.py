@@ -93,6 +93,7 @@ def process_predictions(
         save_path = os.path.join(OUTPUT_DIR, "parsed_predictions.xlsx")
 
     records = []
+    broken = 0
     with open(pred_path, encoding="utf-8", errors="replace") as f:
         for line in f:
             line = line.strip()
@@ -101,7 +102,13 @@ def process_predictions(
             try:
                 records.append(json.loads(line))
             except json.JSONDecodeError:
-                pass  # 깨진 라인 스킵
+                broken += 1
+
+    if broken:
+        print(f"[WARN] 깨진 JSONL 라인 {broken}개 스킵")
+
+    if not records:
+        raise ValueError(f"파싱 가능한 레코드가 없습니다: {pred_path}")
 
     model_names = [
         k for k in records[0].keys()

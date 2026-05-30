@@ -41,23 +41,28 @@ st.set_page_config(
 
 # ── RAG 인덱스 초기 구축 (Streamlit Cloud 최초 실행 대응) ──────────────────
 @st.cache_resource(show_spinner="RAG 인덱스 초기 구축 중... (최초 1회, 약 3-5분 소요)")
-def _ensure_rag_index() -> bool:
+def _ensure_rag_index() -> tuple:
     """컬렉션이 비어 있으면 자동 빌드 — Python/OS 환경에 맞는 바이너리 생성"""
     try:
         import chromadb
         client = chromadb.PersistentClient(path=CHROMA_PERSIST_DIR)
         col = client.get_or_create_collection("korean_finance")
         if col.count() > 0:
-            return True
-        # 비어 있으면 전체 빌드
+            return True, None
         from rag.indexer import build_index
         build_index(reset=True)
-        return True
-    except Exception:
-        return False
+        return True, None
+    except Exception as e:
+        return False, str(e)
 
 
-_rag_ready = _ensure_rag_index()
+_rag_ready, _rag_error = _ensure_rag_index()
+if not _rag_ready:
+    st.warning(
+        f"⚠️ RAG 인덱스 구축 실패 — 펀더멘털·감성 에이전트가 문서 없이 동작합니다.\n\n"
+        f"원인: `{_rag_error}`\n\n"
+        "OPENAI_API_KEY가 Streamlit Secrets에 설정되어 있는지 확인하세요."
+    )
 
 # ── 한글 폰트 ──────────────────────────────────────────────────────────────
 import platform

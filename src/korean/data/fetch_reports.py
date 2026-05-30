@@ -192,12 +192,15 @@ def fetch_financial_summary(corp_code: str, year: str, report_code: str = "11011
         result = {}
         for item in data.get("list", []):
             account = item.get("account_nm", "")
-            amount  = item.get("thstrm_amount", "0").replace(",", "")
-            if "매출액" in account:
+            raw     = item.get("thstrm_amount", "") or ""
+            amount  = raw.replace(",", "").strip()
+            if not amount or amount == "-":
+                continue  # 빈 값·대시는 저장하지 않음 (N/A로 표시됨)
+            if "매출액" in account and "revenue" not in result:
                 result["revenue"] = amount
-            elif "영업이익" in account:
+            elif "영업이익" in account and "operating_profit" not in result:
                 result["operating_profit"] = amount
-            elif "당기순이익" in account:
+            elif "당기순이익" in account and "net_income" not in result:
                 result["net_income"] = amount
         return result
     except Exception:
