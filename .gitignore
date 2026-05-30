@@ -164,6 +164,7 @@ cython_debug/
 
 # API 키 파일
 langsmithApiKey.txt
+.claude/
 
 # 백업 파일
 *.bak
