@@ -57,7 +57,7 @@ TARGET_STOCKS = {
 
 # ── 백테스트 기간 ──────────────────────────────────────────────────────────
 BACKTEST_START = "20230101"
-BACKTEST_END   = "20251231"
+BACKTEST_END   = __import__("datetime").date.today().strftime("%Y1231")
 
 # ── LLM 모델 ───────────────────────────────────────────────────────────────
 MODELS = {
