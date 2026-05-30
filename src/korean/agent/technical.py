@@ -58,7 +58,6 @@ def technical_agent(ticker: str) -> dict:
 
     ma5  = close.rolling(5).mean().iloc[-1]
     ma20 = close.rolling(20).mean().iloc[-1]
-    ma60 = close.rolling(60).mean().iloc[-1] if len(close) >= 60 else ma20
     current = close.iloc[-1]
 
     _macd_last   = macd.iloc[-1]
@@ -66,15 +65,25 @@ def technical_agent(ticker: str) -> dict:
     golden_cross = (pd.notna(_macd_last) and pd.notna(_sig_last)
                     and float(_macd_last) > float(_sig_last))
     above_ma20   = pd.notna(ma20) and current > ma20
-    above_ma60   = pd.notna(ma60) and current > ma60
+
+    # ma60은 데이터가 충분할 때만 독립 신호로 활용 (부족하면 집계 제외)
+    has_ma60   = len(close) >= 60
+    ma60       = close.rolling(60).mean().iloc[-1] if has_ma60 else None
+    above_ma60 = (pd.notna(ma60) and current > ma60) if has_ma60 else None
 
     # 긍정 신호 카운트
-    bullish = sum([golden_cross, above_ma20, above_ma60, rsi < 70])
-    bearish = sum([not golden_cross, not above_ma20, rsi > 70])
+    bullish_signals = [golden_cross, above_ma20, rsi < 70]
+    bearish_signals = [not golden_cross, not above_ma20, rsi > 70]
+    if has_ma60:
+        bullish_signals.append(above_ma60)
+        bearish_signals.append(not above_ma60)
+    bullish = sum(bullish_signals)
+    bearish = sum(bearish_signals)
 
-    if bullish >= 3:
+    total = len(bullish_signals)
+    if bullish >= max(3, total - 1):
         signal, conf = 1, min(0.5 + bullish * 0.1, 0.95)
-    elif bearish >= 2:
+    elif bearish >= max(2, total - 1):
         signal, conf = -1, min(0.5 + bearish * 0.1, 0.90)
     else:
         signal, conf = 0, 0.4
@@ -83,10 +92,12 @@ def technical_agent(ticker: str) -> dict:
         "current_price": int(current),
         "ma5":           round(float(ma5), 0),
         "ma20":          round(float(ma20), 0),
+        "ma60":          round(float(ma60), 0) if has_ma60 and pd.notna(ma60) else None,
         "macd_cross":    "골든크로스" if golden_cross else "데드크로스",
         "rsi":           rsi,
         "rsi_status":    "과매수" if rsi > 70 else ("과매도" if rsi < 30 else "중립"),
         "above_ma20":    above_ma20,
+        "above_ma60":    above_ma60,
     }
 
     summary = (

@@ -47,11 +47,11 @@ def run(ticker: str) -> AgentState:
 
     fund_result, fund_docs = fundamental_agent(ticker, state.stock_name)
     state.fund_result = fund_result
-    state.rag_context.extend(fund_docs)
+    state.rag_context.extend({"text": d, "source": "opendart"} for d in fund_docs)
 
     sent_result, sent_docs = sentiment_agent(ticker, state.stock_name)
     state.sent_result = sent_result
-    state.rag_context.extend(sent_docs)
+    state.rag_context.extend({"text": d, "source": "naver_news"} for d in sent_docs)
 
     # ── 합성 ─────────────────────────────────────────────────────
     # synthesizer는 dict를 받으므로 dataclass를 dict로 변환

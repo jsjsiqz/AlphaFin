@@ -62,7 +62,8 @@ def _get_stage1_signal(ticker: str) -> dict:
         if not model_cols:
             return {}
         signals   = {m: int(latest.get(m, 0)) for m in model_cols}
-        consensus = 1 if sum(signals.values()) > 0 else -1
+        s = sum(signals.values())
+        consensus = 1 if s > 0 else (-1 if s < 0 else 0)
         agreement = f"{sum(v == consensus for v in signals.values())}/{len(signals)}"
         return {
             "signals":     signals,
@@ -118,10 +119,20 @@ def sentiment_agent(ticker: str, stock_name: str) -> tuple:
 
     news_section = news_text if news_text else "수집된 뉴스 없음"
 
-    stage1_section = (
-        f"LLM 합의: {stage1.get('agreement','N/A')} 일치 / "
-        f"기준 보고서: {stage1.get('report_date','N/A')}"
-    ) if stage1 else "Stage 1 데이터 없음 (Stage 1 먼저 실행 필요)"
+    if stage1:
+        _sig_map = {1: "상승(매수)", -1: "하락(매도)", 0: "중립"}
+        _sig_lines = ", ".join(
+            f"{m}: {_sig_map.get(v, '?')}"
+            for m, v in stage1.get("signals", {}).items()
+        )
+        _consensus_kr = _sig_map.get(stage1.get("consensus", 0), "?")
+        stage1_section = (
+            f"개별 신호: {_sig_lines}\n"
+            f"합의 방향: {_consensus_kr} ({stage1.get('agreement','N/A')} 일치)\n"
+            f"기준 보고서: {stage1.get('report_date','N/A')}"
+        )
+    else:
+        stage1_section = "Stage 1 데이터 없음 (Stage 1 먼저 실행 필요)"
 
     prompt = f"""당신은 한국 주식 시장 감성 분석 전문가입니다.
 
@@ -133,7 +144,7 @@ def sentiment_agent(ticker: str, stock_name: str) -> tuple:
 
 위 뉴스와 예측을 종합하여 {stock_name}({ticker})의 시장 감성을 평가하세요.
 형식:
-신호: 긍정 또는 부정
+신호: 긍정, 중립, 부정 중 하나
 신뢰도: 0.0~1.0
 핵심 뉴스: 가장 중요한 뉴스 한 줄
 근거: 2문장 이내"""
