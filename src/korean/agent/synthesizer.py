@@ -47,7 +47,8 @@ def synthesizer(state: dict) -> str:
 
     tech_signal = _SIGNAL_KR.get(tech.get("signal", 0), "중립")
     fund_signal = _SIGNAL_KR.get(fund.get("signal", 0), "중립")
-    sent_signal = "긍정" if sent.get("signal", 0) > 0 else "부정"
+    _sent_sig = sent.get("signal", 0)
+    sent_signal = "긍정" if _sent_sig > 0 else ("부정" if _sent_sig < 0 else "중립")
 
     # RAG 컨텍스트 요약 (상위 2개 청크 — 문자열 리스트)
     rag_summary = "\n".join(str(c) for c in rag_ctx[:2]) if rag_ctx else "추가 문서 없음"

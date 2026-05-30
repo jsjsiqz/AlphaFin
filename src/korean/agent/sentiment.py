@@ -74,6 +74,29 @@ def _get_stage1_signal(ticker: str) -> dict:
         return {}
 
 
+def _parse_signal(text: str) -> int:
+    """'신호:' 라인에서 긍정/부정 추출 — 전체 텍스트 단순 검색보다 정확"""
+    for line in text.splitlines():
+        if "신호" in line:
+            clean = re.sub(r"[*_#\[\]:]", "", line)
+            # 신호 키워드 뒤에 오는 첫 번째 단어로 판단
+            after = clean.split("신호")[-1].strip()
+            if "부정" in after:
+                return -1
+            if "긍정" in after:
+                return 1
+            if "중립" in after:
+                return 0
+    # 폴백: 키워드 빈도 비교
+    pos = text.count("긍정")
+    neg = text.count("부정")
+    if pos > neg:
+        return 1
+    if neg > pos:
+        return -1
+    return 0
+
+
 def _parse_confidence(text: str) -> float:
     """LLM 출력에서 신뢰도 값 추출 (0.0~1.0) — 백분율(80) / 소수(0.8) 모두 처리"""
     m = re.search(r'신뢰도\s*[:：]\s*([0-9]+\.?[0-9]*)', text)
@@ -122,7 +145,7 @@ def sentiment_agent(ticker: str, stock_name: str) -> tuple:
             messages=[{"role": "user", "content": prompt}],
         )
         text = resp.content[0].text.strip()
-        signal = 1 if "긍정" in text else (-1 if "부정" in text else 0)
+        signal = _parse_signal(text)
         return {
             "signal":      signal,
             "confidence":  _parse_confidence(text),
