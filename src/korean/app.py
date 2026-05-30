@@ -31,6 +31,13 @@ from config import TARGET_STOCKS, CHROMA_PERSIST_DIR
 # 에이전트 임포트 (절대 경로 기반, Streamlit 실행 위치 무관)
 from graph import run as run_agent
 
+# ── 페이지 설정 — 반드시 첫 번째 st.* 명령 ─────────────────────────────────
+st.set_page_config(
+    page_title="AlphaFin Korean",
+    page_icon="📈",
+    layout="wide",
+)
+
 
 # ── RAG 인덱스 초기 구축 (Streamlit Cloud 최초 실행 대응) ──────────────────
 @st.cache_resource(show_spinner="RAG 인덱스 초기 구축 중... (최초 1회, 약 3-5분 소요)")
@@ -51,13 +58,6 @@ def _ensure_rag_index() -> bool:
 
 
 _rag_ready = _ensure_rag_index()
-
-# ── 페이지 설정 ────────────────────────────────────────────────────────────
-st.set_page_config(
-    page_title="AlphaFin Korean",
-    page_icon="📈",
-    layout="wide",
-)
 
 # ── 한글 폰트 ──────────────────────────────────────────────────────────────
 import platform

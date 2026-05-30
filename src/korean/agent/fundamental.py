@@ -5,6 +5,7 @@ OpenDART 재무 수치 + LangChain RAG(보고서 원문) → Claude Haiku 분석
 import os
 import re
 import sys
+import json
 from datetime import datetime
 
 _THIS_DIR   = os.path.abspath(os.path.dirname(__file__))
@@ -45,7 +46,32 @@ def _get_rag_context(ticker: str, stock_name: str) -> tuple:
 
 
 def _get_financial_data(ticker: str) -> dict:
-    """OpenDART 최신 재무 수치 조회 — 최근 3개 사업연도 폴백"""
+    """
+    최신 재무 수치 반환.
+    1순위: 로컬 reports_raw.json (빠름, 네트워크 불필요)
+    2순위: DART API 실시간 조회 (로컬 파일 없을 때 폴백)
+    """
+    # 1. 로컬 JSON 우선 — Streamlit Cloud에도 커밋된 파일
+    try:
+        reports_path = os.path.abspath(
+            os.path.join(_KOREAN_DIR, "..", "..", "outputs", "korean", "reports", "reports_raw.json")
+        )
+        if os.path.exists(reports_path):
+            with open(reports_path, encoding="utf-8") as f:
+                reports = json.load(f)
+            ticker_reports = [
+                r for r in reports
+                if r.get("ticker") == ticker and r.get("financial_summary")
+            ]
+            if ticker_reports:
+                latest = sorted(ticker_reports, key=lambda x: x.get("report_date", ""), reverse=True)[0]
+                fin = dict(latest["financial_summary"])
+                fin["fin_year"] = latest.get("report_date", "")[:4]
+                return fin
+    except Exception:
+        pass
+
+    # 2. DART API 폴백 (로컬 파일이 없을 경우)
     try:
         data_dir = os.path.join(_KOREAN_DIR, "data")
         sys.path.insert(0, data_dir)
@@ -53,7 +79,6 @@ def _get_financial_data(ticker: str) -> dict:
         corp_code = get_corp_code(ticker)
         if not corp_code:
             return {}
-        # 당해연도 사업보고서 없을 경우 전전년도까지 폴백
         for year_offset in range(1, 4):
             fin_year = str(datetime.now().year - year_offset)
             data = fetch_financial_summary(corp_code, fin_year, "11011")
@@ -63,6 +88,27 @@ def _get_financial_data(ticker: str) -> dict:
         return {}
     except Exception:
         return {}
+
+
+def _parse_signal(text: str) -> int:
+    """'신호:' 라인에서 매수/매도 추출 — 전체 텍스트 단순 검색보다 정확"""
+    for line in text.splitlines():
+        if "신호" in line:
+            clean = re.sub(r"[*_#\[\]:]", "", line)
+            # 신호 키워드 뒤에 오는 첫 번째 단어로 판단
+            after = clean.split("신호")[-1].strip()
+            if "매도" in after:
+                return -1
+            if "매수" in after:
+                return 1
+    # 폴백: 키워드 빈도 비교
+    buy  = text.count("매수")
+    sell = text.count("매도")
+    if buy > sell:
+        return 1
+    if sell > buy:
+        return -1
+    return 0
 
 
 def _parse_confidence(text: str) -> float:
@@ -115,7 +161,7 @@ def fundamental_agent(ticker: str, stock_name: str) -> tuple:
             messages=[{"role": "user", "content": prompt}],
         )
         text = resp.content[0].text.strip()
-        signal = 1 if "매수" in text else (-1 if "매도" in text else 0)
+        signal = _parse_signal(text)
         return {
             "signal":     signal,
             "confidence": _parse_confidence(text),

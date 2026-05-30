@@ -64,7 +64,8 @@ def run(ticker: str) -> AgentState:
         (state.sent_result  or {}).get("signal", 0),
     ]
     valid = [s for s in signals if s != 0]
-    state.final_signal = 1 if sum(valid) > 0 else (-1 if valid else 0)
+    s = sum(valid)
+    state.final_signal = 1 if s > 0 else (-1 if s < 0 else 0)
 
     return state
 
