@@ -1,12 +1,12 @@
 pykrx
-anthropic
-openai
-langchain
-langchain-core
-langchain-text-splitters
-langchain-openai
-langchain-chroma
-chromadb
+anthropic>=0.40.0
+openai>=1.50.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-text-splitters>=0.3.0
+langchain-openai>=0.2.0
+langchain-chroma>=0.1.4
+chromadb>=0.6.0
 pandas
 numpy
 openpyxl
@@ -15,4 +15,4 @@ tqdm
 fire
 python-dotenv
 matplotlib
-streamlit
+streamlit>=1.40.0

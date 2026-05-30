@@ -167,3 +167,6 @@ langsmithApiKey.txt
 
 # 백업 파일
 *.bak
+
+# Chroma 벡터 DB (OS/Python 버전별 바이너리 비호환 — Streamlit Cloud에서 자동 재빌드)
+outputs/korean/chroma_db/

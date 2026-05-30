@@ -26,10 +26,31 @@ _THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, _THIS_DIR)
 sys.path.insert(0, os.path.join(_THIS_DIR, "agent"))
 
-from config import TARGET_STOCKS
+from config import TARGET_STOCKS, CHROMA_PERSIST_DIR
 
 # 에이전트 임포트 (절대 경로 기반, Streamlit 실행 위치 무관)
 from graph import run as run_agent
+
+
+# ── RAG 인덱스 초기 구축 (Streamlit Cloud 최초 실행 대응) ──────────────────
+@st.cache_resource(show_spinner="RAG 인덱스 초기 구축 중... (최초 1회, 약 3-5분 소요)")
+def _ensure_rag_index() -> bool:
+    """컬렉션이 비어 있으면 자동 빌드 — Python/OS 환경에 맞는 바이너리 생성"""
+    try:
+        import chromadb
+        client = chromadb.PersistentClient(path=CHROMA_PERSIST_DIR)
+        col = client.get_or_create_collection("korean_finance")
+        if col.count() > 0:
+            return True
+        # 비어 있으면 전체 빌드
+        from rag.indexer import build_index
+        build_index(reset=True)
+        return True
+    except Exception:
+        return False
+
+
+_rag_ready = _ensure_rag_index()
 
 # ── 페이지 설정 ────────────────────────────────────────────────────────────
 st.set_page_config(
