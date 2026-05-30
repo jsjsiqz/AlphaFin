@@ -308,9 +308,9 @@ AlphaFin/
 │       ├── reports/reports_raw.json     # ← RAG 인덱스 소스
 │       ├── news/news_raw.json           # ← RAG 인덱스 소스
 │       ├── prices/
-│       │   ├── monthly_close.csv        # 30종목 × 25개월 캐시 (fetch_prices.py 생성)
+│       │   ├── monthly_close.csv        # 30종목 × 36개월 캐시 (2023~2025, fetch_prices.py 생성)
 │       │   └── benchmark_monthly.csv   # 동일가중 벤치마크 수익률
-│       ├── chroma_db/                   # Chroma 로컬 인덱스
+│       ├── chroma_db/                   # Chroma 로컬 인덱스 (git 제외 — Streamlit Cloud 자동 빌드)
 │       ├── korean_testdata.json
 │       ├── llm_predictions.jsonl        # ← 감성 에이전트 참조
 │       ├── parsed_predictions.xlsx
@@ -330,7 +330,7 @@ AlphaFin/
 ```bash
 git clone https://github.com/your-repo/AlphaFin.git
 cd AlphaFin
-pip install -r requirements_korean.txt
+pip install -r requirements.txt
 ```
 
 ### 2. API 키 설정
@@ -370,6 +370,10 @@ python stage1/backtest.py --weight 동일가중 --long_short 롱숏
 python rag/indexer.py    # Chroma 구축 (~3분, ~$0.01)
 ```
 
+> **Streamlit Cloud 자동 빌드**: chroma_db 바이너리는 OS/Python 버전에 종속되어 git에서 제외.  
+> 배포 후 **첫 접속 시 자동으로 빌드** (`@st.cache_resource`)되므로 별도 실행 불필요.  
+> 첫 빌드에 약 3~5분 소요 — 데모 전 미리 한 번 앱에 접속해 두면 됩니다.
+
 ### 5. 에이전트 실행
 
 ```bash
@@ -389,7 +393,8 @@ python agent/graph.py --ticker 005930 --output json
 ```
 
 > **Streamlit Cloud 배포**: https://jsjsiqz-alphafin-src-korean-app.streamlit.app  
-> Secrets 설정: Streamlit Cloud 대시보드 → App settings → Secrets에 TOML 형식으로 API 키 입력
+> Secrets 설정: Streamlit Cloud 대시보드 → App settings → Secrets에 TOML 형식으로 API 키 입력  
+> RAG 인덱스: 첫 접속 시 자동 빌드 (약 3~5분) → 이후 캐시 유지
 
 ### 6. n8n 워크플로우 구성
 
@@ -512,7 +517,7 @@ Week 4 — 통합 + 발표
 ## 의존성
 
 ```bash
-pip install -r requirements_korean.txt
+pip install -r requirements.txt
 ```
 
 | 패키지 | 용도 | 비용 |
