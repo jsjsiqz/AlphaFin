@@ -217,6 +217,72 @@ RAG 뉴스 검색 결과 + Stage1 방향 신호 → Claude Sonnet 4.6에게 전�
 
 ---
 
+## RAG 설계
+
+### 청킹 전략 (`rag/loader.py`)
+
+```python
+RecursiveCharacterTextSplitter(
+    chunk_size=500,                        # 문자 기준 (토큰 아님)
+    chunk_overlap=50,                      # 문맥 연속성 보존
+    separators=["\n\n", "\n", ".", " "],   # 단락 → 줄 → 마침표 → 공백 순 분할
+)
+```
+
+- **chunk_size 500**: 에이전트 프롬프트 `max_tokens=300`과 균형 — 보고서 1건이 대부분 1~2청크로 분할됨
+- **구분자 우선순위**: 한국어 문서 특성상 줄바꿈(`\n`)이 단락 경계 역할을 하므로 `"\n\n"` → `"\n"` 순으로 먼저 시도
+
+### 문서 포맷
+
+**보고서 (OpenDART)** — `load_reports()`:
+```
+삼성전자(005930) 2024-03-15 사업보고서
+매출액: 258조 935억원
+영업이익: 6조 5,670억원
+당기순이익: 15조 4,870억원
+```
+재무 수치를 `_fmt_krw()`로 억원/조원 단위 변환 후 구조화 텍스트로 직렬화
+
+**뉴스 (네이버)** — `load_news()`:
+```
+[2024-11-03] 삼성전자, 4분기 깜짝 실적 예상
+뉴스 본문 description...
+```
+날짜 prefix + 제목 + description 이어붙이기
+
+### 메타데이터 필터 (종목 격리)
+
+| 필드 | 보고서 | 뉴스 |
+|---|---|---|
+| `ticker` | 6자리 종목코드 | 6자리 종목코드 |
+| `source` | `"opendart"` | `"naver_news"` |
+| `report_date` / `pub_date` | YYYY-MM-DD | RFC 2822 → YYYY-MM-DD |
+
+### 검색 파라미터
+
+| 에이전트 | source 필터 | k |
+|---|---|---|
+| 펀더멘털 | `opendart` | 3 |
+| 감성 | `naver_news` | 5 |
+
+### 중복 제거 (`indexer.py`)
+
+```python
+key = ticker + report_date + source + content[:80]
+id  = md5(key)  # 결정론적 ID → Chroma upsert (재인덱싱 시 중복 방지)
+```
+
+결과: 보고서 504건 + 뉴스 600건 → 원본 1,104청크 → **중복 14개 제거 → 1,090 unique 청크**
+
+### 임베딩
+
+- 모델: `text-embedding-3-small` (OpenAI)
+- 비용: 전체 인덱싱 ~$0.01
+- 저장: Chroma 로컬 (`outputs/korean/chroma_db/`)
+- 유사도: cosine similarity
+
+---
+
 ## n8n 자동화 설계
 
 ### 역할
