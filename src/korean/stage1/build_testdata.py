@@ -36,31 +36,50 @@ def build_news_index(news_list: list) -> dict:
     return index
 
 
-def format_financial(fin: dict) -> str:
-    def fmt(v):
-        try:
-            return f"{int(v):,}원"
-        except Exception:
-            return str(v) if v else "정보없음"
+def _fmt_krw(val) -> str:
+    """원화 금액을 억원/조원 단위로 변환 — LLM 가독성 향상"""
+    if val is None or val == "" or val == "N/A":
+        return "정보없음"
+    try:
+        n = int(str(val).replace(",", "").split(".")[0])
+        eok = n // 100_000_000
+        if abs(eok) >= 10_000:
+            jo = eok // 10_000
+            rem = eok % 10_000
+            return f"{jo:,}조 {rem:,}억원"
+        return f"{eok:,}억원"
+    except (ValueError, TypeError):
+        return str(val) if val else "정보없음"
 
+
+def format_financial(fin: dict) -> str:
     lines = []
     if "revenue" in fin:
-        lines.append(f"  매출액: {fmt(fin['revenue'])}")
+        lines.append(f"  매출액: {_fmt_krw(fin['revenue'])}")
     if "operating_profit" in fin:
-        lines.append(f"  영업이익: {fmt(fin['operating_profit'])}")
+        lines.append(f"  영업이익: {_fmt_krw(fin['operating_profit'])}")
     if "net_income" in fin:
-        lines.append(f"  당기순이익: {fmt(fin['net_income'])}")
+        lines.append(f"  당기순이익: {_fmt_krw(fin['net_income'])}")
     return "\n".join(lines) if lines else "  재무 데이터 없음"
 
 
-def format_news(news_list: list, max_count: int = 5) -> str:
+def format_news(news_list: list, max_count: int = 5, before_date: str = None) -> str:
+    """보고서 날짜 이전 뉴스만 사용 (before_date: YYYY-MM-DD, 미래 데이터 누수 방지)"""
     if not news_list:
         return "  관련 뉴스 없음"
+    filtered = news_list
+    if before_date:
+        filtered = [
+            n for n in news_list
+            if (n.get("pub_date", "") or "")[:10] <= before_date
+        ]
+    if not filtered:
+        return "  관련 뉴스 없음"
     lines = []
-    for item in news_list[:max_count]:
+    for item in filtered[:max_count]:
         title = item.get("title", "").strip()
         desc  = item.get("description", "").strip()
-        date  = item.get("pub_date", "")[:16]
+        date  = item.get("pub_date", "")[:10]
         lines.append(f"  [{date}] {title} - {desc[:80]}")
     return "\n".join(lines)
 
@@ -74,7 +93,7 @@ def build_input_text(report: dict, news_index: dict) -> str:
     news_items = news_index.get(ticker, [])
 
     fin_text  = format_financial(fin)
-    news_text = format_news(news_items)
+    news_text = format_news(news_items, before_date=rpt_date)
 
     return (
         f"[기업 정보]\n"

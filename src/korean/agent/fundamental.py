@@ -1,6 +1,6 @@
 """
 펀더멘털 에이전트
-OpenDART 재무 수치 + LangChain RAG(보고서 원문) → Claude Haiku 분석
+OpenDART 재무 수치 + LangChain RAG(보고서 원문) → Claude Sonnet 4.6 분석
 """
 import os
 import re

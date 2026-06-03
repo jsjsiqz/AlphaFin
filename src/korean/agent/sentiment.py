@@ -1,6 +1,6 @@
 """
 감성 에이전트
-LangChain RAG(뉴스) + Stage 1 예측값 → Claude Haiku 감성 분류
+LangChain RAG(뉴스) + Stage 1 예측값 → Claude Sonnet 4.6 감성 분류
 """
 import os
 import re

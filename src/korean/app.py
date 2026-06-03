@@ -204,154 +204,171 @@ with st.sidebar:
 
 # ── 메인 화면 ──────────────────────────────────────────────────────────────
 
-st.title(f"📊 {selected_name} ({selected_ticker})")
+tab_agent, tab_backtest = st.tabs(["📊 에이전트 분석", "📈 Stage 1 백테스트 결과"])
 
-# 주가 차트 (항상 표시)
-with st.spinner("주가 데이터 로딩 중..."):
-    render_price_chart(selected_ticker, selected_name)
+with tab_backtest:
+    _bt_dir = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "outputs", "korean", "backtest"))
+    _metrics_path = os.path.join(_bt_dir, "metrics_동일가중_롱숏.csv")
+    _chart_path   = os.path.join(_bt_dir, "returns_동일가중_롱숏.png")
 
-st.divider()
+    st.subheader("LLM별 주가 방향 예측 정확도")
+    _acc_data = {"모델": ["Claude Haiku 4.5", "GPT-4o-mini", "랜덤 베이스라인"],
+                 "정확도(%)": [53.6, 53.6, 50.0]}
+    st.dataframe(pd.DataFrame(_acc_data), use_container_width=True, hide_index=True)
 
-# 분석 미실행 상태
-if not analyze_btn and "last_result" not in st.session_state:
-    st.info("← 왼쪽에서 종목을 선택하고 **분석 시작** 버튼을 눌러주세요.")
-    st.stop()
+    st.subheader("전략별 성과 지표 (동일가중 롱숏)")
+    if os.path.exists(_metrics_path):
+        _df_metrics = pd.read_csv(_metrics_path, index_col=0, encoding="utf-8-sig")
+        st.dataframe(_df_metrics, use_container_width=True)
+    else:
+        st.info("백테스트 결과 없음 — `python stage1/backtest.py` 먼저 실행하세요.")
 
-# ── 에이전트 실행 ─────────────────────────────────────────────────────────
+    st.subheader("누적 수익률 차트")
+    if os.path.exists(_chart_path):
+        st.image(_chart_path, use_container_width=True)
+    else:
+        st.info("차트 없음 — `python stage1/backtest.py` 먼저 실행하세요.")
 
-if analyze_btn:
-    progress = st.progress(0, text="기술 분석 중...")
+    st.caption(
+        "동일가중 롱숏 전략 · 기간: 2023~2025.12 · 종목: KOSPI 30종목\n"
+        "⚠️ 학술 목적 전용 · 실제 투자 조언 아님"
+    )
 
-    with st.spinner("에이전트 분석 실행 중..."):
-        try:
-            start_time = time.time()
-            progress.progress(10, text="🔧 에이전트 실행 중...")
-            result = run_agent(selected_ticker)
-            progress.progress(100, text="✅ 분석 완료")
+with tab_agent:
+    st.subheader(f"📊 {selected_name} ({selected_ticker})")
 
-            elapsed = time.time() - start_time
-            st.session_state["last_result"] = result
-            st.session_state["last_ticker"]  = selected_ticker
-            st.success(f"분석 완료 ({elapsed:.1f}초)")
+    with st.spinner("주가 데이터 로딩 중..."):
+        render_price_chart(selected_ticker, selected_name)
 
-        except Exception as e:
-            progress.empty()
-            st.error(f"에이전트 실행 오류: {e}")
-            st.exception(e)
-            st.stop()
+    st.divider()
 
-# ── 결과 표시 ─────────────────────────────────────────────────────────────
+    if not analyze_btn and "last_result" not in st.session_state:
+        st.info("← 왼쪽에서 종목을 선택하고 **분석 시작** 버튼을 눌러주세요.")
+        st.stop()
 
-result = st.session_state.get("last_result")
-if result is None:
-    st.stop()
+    if analyze_btn:
+        progress = st.progress(0, text="기술 분석 중...")
+        with st.spinner("에이전트 분석 실행 중..."):
+            try:
+                start_time = time.time()
+                progress.progress(10, text="🔧 에이전트 실행 중...")
+                result = run_agent(selected_ticker)
+                progress.progress(100, text="✅ 분석 완료")
+                elapsed = time.time() - start_time
+                st.session_state["last_result"] = result
+                st.session_state["last_ticker"]  = selected_ticker
+                st.success(f"분석 완료 ({elapsed:.1f}초)")
+            except Exception as e:
+                progress.empty()
+                st.error(f"에이전트 실행 오류: {e}")
+                st.exception(e)
+                st.stop()
 
-# 종목이 바뀐 경우 경고
-if st.session_state.get("last_ticker") != selected_ticker:
-    st.warning("⚠️ 종목이 변경되었습니다. 다시 분석을 실행해주세요.")
+    result = st.session_state.get("last_result")
+    if result is None:
+        st.stop()
 
-# 최종 신호 배너
-final_signal = result.final_signal
-signal_text  = {1: "매수", -1: "매도", 0: "중립"}.get(final_signal, "중립")
-banner_color = signal_color(final_signal)
-emoji        = "🟢" if final_signal == 1 else ("🔴" if final_signal == -1 else "🟡")
+    if st.session_state.get("last_ticker") != selected_ticker:
+        st.warning("⚠️ 종목이 변경되었습니다. 다시 분석을 실행해주세요.")
 
-st.markdown(
-    f"""
-    <div style="
-        background: {banner_color}22;
-        border: 2px solid {banner_color};
-        border-radius: 8px;
-        padding: 16px 24px;
-        text-align: center;
-        margin-bottom: 16px;
-    ">
-        <span style="font-size:28px;">{emoji}</span>
-        <span style="font-size:24px; font-weight:bold; color:{banner_color}; margin-left:12px;">
-            종합 의견: {signal_text}
-        </span>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+    final_signal = result.final_signal
+    signal_text  = {1: "매수", -1: "매도", 0: "중립"}.get(final_signal, "중립")
+    banner_color = signal_color(final_signal)
+    emoji        = "🟢" if final_signal == 1 else ("🔴" if final_signal == -1 else "🟡")
 
-# 3개 에이전트 카드
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    tech = result.tech_result or {}
-    render_agent_card("기술 에이전트", "📉", tech if tech else None)
-    if tech.get("detail"):
-        with st.expander("상세 지표"):
-            d = tech["detail"]
-            st.markdown(f"- **현재가**: {d.get('current_price', 0):,}원")
-            st.markdown(f"- **MACD**: {d.get('macd_cross', '-')}")
-            st.markdown(f"- **RSI**: {d.get('rsi', '-')} ({d.get('rsi_status', '-')})")
-            st.markdown(f"- **20일선**: {'위' if d.get('above_ma20') else '아래'}")
-            if d.get("ma60") is not None:
-                st.markdown(f"- **60일선**: {'위' if d.get('above_ma60') else '아래'}")
-
-with col2:
-    fund = result.fund_result or {}
-    render_agent_card("펀더멘털 에이전트", "📋", fund if fund else None)
-    if fund.get("raw_output"):
-        with st.expander("LLM 분석 원문"):
-            st.text(fund["raw_output"])
-
-with col3:
-    sent = result.sent_result or {}
-    render_agent_card("감성 에이전트", "📰", sent if sent else None)
-    stage1 = (sent or {}).get("stage1_data", {})
-    if stage1:
-        with st.expander("Stage 1 예측 참고"):
-            st.markdown(f"- **LLM 합의**: {stage1.get('agreement', '-')}")
-            st.markdown(f"- **기준 보고서**: {stage1.get('report_date', '-')}")
-            sigs = stage1.get("signals", {})
-            for m, v in sigs.items():
-                st.markdown(f"  - {m}: {'↑상승' if v==1 else ('↓하락' if v==-1 else '?')}")
-
-st.divider()
-
-# 자연어 투자 의견
-st.subheader("💬 자연어 투자 의견 (GPT-4o-mini)")
-if result.recommendation:
     st.markdown(
         f"""
         <div style="
-            background: #1e2130;
+            background: {banner_color}22;
+            border: 2px solid {banner_color};
             border-radius: 8px;
-            padding: 16px 20px;
-            line-height: 1.8;
-            font-size: 14px;
-            white-space: pre-wrap;
-        ">{result.recommendation}</div>
+            padding: 16px 24px;
+            text-align: center;
+            margin-bottom: 16px;
+        ">
+            <span style="font-size:28px;">{emoji}</span>
+            <span style="font-size:24px; font-weight:bold; color:{banner_color}; margin-left:12px;">
+                종합 의견: {signal_text}
+            </span>
+        </div>
         """,
         unsafe_allow_html=True,
     )
-else:
-    st.info("합성기 출력 없음")
 
-st.divider()
+    col1, col2, col3 = st.columns(3)
 
-# RAG 참조 문서
-if result.rag_context:
-    st.subheader("📚 RAG 참조 문서 (근거 출처)")
-    st.caption(f"검색된 문서 청크 {len(result.rag_context)}개")
-    _source_label = {"opendart": "📋 공시보고서", "naver_news": "📰 뉴스"}
-    for i, chunk in enumerate(result.rag_context[:6], 1):
-        if isinstance(chunk, dict):
-            _src = _source_label.get(chunk.get("source", ""), "📄 문서")
-            _txt = chunk.get("text", "")
-        else:
-            _src = "📄 문서"
-            _txt = str(chunk)
-        with st.expander(f"{_src} {i} — {_txt[:40].strip()}..."):
-            st.text(_txt)
-else:
-    st.info("RAG 인덱스가 구축되지 않았습니다. `python rag/indexer.py` 먼저 실행하세요.")
+    with col1:
+        tech = result.tech_result or {}
+        render_agent_card("기술 에이전트", "📉", tech if tech else None)
+        if tech.get("detail"):
+            with st.expander("상세 지표"):
+                d = tech["detail"]
+                st.markdown(f"- **현재가**: {d.get('current_price', 0):,}원")
+                st.markdown(f"- **MACD**: {d.get('macd_cross', '-')}")
+                st.markdown(f"- **RSI**: {d.get('rsi', '-')} ({d.get('rsi_status', '-')})")
+                st.markdown(f"- **20일선**: {'위' if d.get('above_ma20') else '아래'}")
+                if d.get("ma60") is not None:
+                    st.markdown(f"- **60일선**: {'위' if d.get('above_ma60') else '아래'}")
 
-st.divider()
-st.caption(
-    "AlphaFin Korean | 숭실대학교 정보과학대학원 AI학과 금융AI 팀프로젝트 | "
-    "학술 목적 전용 · 실제 투자 조언 아님"
-)
+    with col2:
+        fund = result.fund_result or {}
+        render_agent_card("펀더멘털 에이전트", "📋", fund if fund else None)
+        if fund.get("raw_output"):
+            with st.expander("LLM 분석 원문"):
+                st.text(fund["raw_output"])
+
+    with col3:
+        sent = result.sent_result or {}
+        render_agent_card("감성 에이전트", "📰", sent if sent else None)
+        stage1 = (sent or {}).get("stage1_data", {})
+        if stage1:
+            with st.expander("Stage 1 예측 참고"):
+                st.markdown(f"- **LLM 합의**: {stage1.get('agreement', '-')}")
+                st.markdown(f"- **기준 보고서**: {stage1.get('report_date', '-')}")
+                sigs = stage1.get("signals", {})
+                for m, v in sigs.items():
+                    st.markdown(f"  - {m}: {'↑상승' if v==1 else ('↓하락' if v==-1 else '?')}")
+
+    st.divider()
+
+    st.subheader("💬 자연어 투자 의견 (GPT-4o-mini)")
+    if result.recommendation:
+        st.markdown(
+            f"""
+            <div style="
+                background: #1e2130;
+                border-radius: 8px;
+                padding: 16px 20px;
+                line-height: 1.8;
+                font-size: 14px;
+                white-space: pre-wrap;
+            ">{result.recommendation}</div>
+            """,
+            unsafe_allow_html=True,
+        )
+    else:
+        st.info("합성기 출력 없음")
+
+    st.divider()
+
+    if result.rag_context:
+        st.subheader("📚 RAG 참조 문서 (근거 출처)")
+        st.caption(f"검색된 문서 청크 {len(result.rag_context)}개")
+        _source_label = {"opendart": "📋 공시보고서", "naver_news": "📰 뉴스"}
+        for i, chunk in enumerate(result.rag_context[:6], 1):
+            if isinstance(chunk, dict):
+                _src = _source_label.get(chunk.get("source", ""), "📄 문서")
+                _txt = chunk.get("text", "")
+            else:
+                _src = "📄 문서"
+                _txt = str(chunk)
+            with st.expander(f"{_src} {i} — {_txt[:40].strip()}..."):
+                st.text(_txt)
+    else:
+        st.info("RAG 인덱스가 구축되지 않았습니다. `python rag/indexer.py` 먼저 실행하세요.")
+
+    st.divider()
+    st.caption(
+        "AlphaFin Korean | 숭실대학교 정보과학대학원 AI학과 금융AI 팀프로젝트 | "
+        "학술 목적 전용 · 실제 투자 조언 아님"
+    )
