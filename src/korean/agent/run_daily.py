@@ -1,6 +1,6 @@
 """
-n8n Execute Command 노드용 — 일일 전 종목 에이전트 분석
-평일 09:10 자동 실행 → signal==1 종목만 Telegram 알림
+api_server.py /run-agents 엔드포인트용 — 일일 전 종목 에이전트 분석
+평일 09:10 n8n HTTP Request 자동 실행 → buy_count > 0 종목만 Telegram 알림
 """
 import sys
 import os

@@ -77,11 +77,11 @@
 │  [Cron: 평일 08:50]             [Cron: 평일 09:10]              │
 │  ┌────────────────────────┐   ┌────────────────────────────┐   │
 │  │ 데이터 파이프라인       │   │ 에이전트 분석 + 알림        │   │
-│  │ fetch_reports.py       │   │ python agent/graph.py      │   │
-│  │ fetch_news.py          │   │   --ticker 005930          │   │
+│  │ fetch_reports.py       │   │ HTTP GET /run-agents       │   │
+│  │ fetch_news.py          │   │ → run_daily.py (30종목)   │   │
 │  │ rag/indexer.py         │   │   --output json            │   │
 │  │     ↓                  │   │         ↓                  │   │
-│  │ Telegram: "수집 완료"  │   │ IF signal==1 → Telegram    │   │
+│  │ Telegram: "수집 완료"  │   │ IF buy_count>0 → Telegram  │   │
 │  └────────────────────────┘   └────────────────────────────┘   │
 └─────────────────────────┬────────────────────────────────────────┘
                           │
@@ -294,48 +294,118 @@ Python 코드 역할: 데이터 수집, RAG 구축, 에이전트 분석
 n8n 역할:         위 스크립트를 언제·어떻게 실행하고 결과를 어디로 보낼지 결정
 ```
 
+### 전체 파이프라인 흐름
+
+```
+08:50  워크플로우 1 — 데이터 수집 + RAG 갱신 (약 10~15분 소요)
+         보고서 수집 → 뉴스 수집 → RAG 인덱스 갱신 → Telegram "갱신 완료"
+
+09:10  워크플로우 2 — 에이전트 분석 + 알림 (최신 데이터 반영된 상태)
+         전 종목 분석 → 매수 신호 있으면 → Telegram "매수 신호 감지!"
+```
+
+---
+
+### 로컬 n8n 초기 설정
+
+#### 1. n8n 시작
+
+프로젝트 루트의 `start_n8n.bat` 더블클릭 (또는 PowerShell에서 실행):
+
+```
+AlphaFin/start_n8n.bat
+```
+
+두 개의 CMD 창이 동시에 열립니다:
+
+| 창 | 역할 | 포트 |
+|---|---|---|
+| **AlphaFin API** | Python 스크립트 HTTP 실행 서버 | 8765 |
+| **n8n** | 워크플로우 자동화 UI | 5678 |
+
+> n8n 최신 버전에서 `executeCommand` 노드가 제거됨.  
+> `api_server.py`가 Python 스크립트를 HTTP로 감싸 n8n `HTTP Request` 노드에서 호출하는 방식으로 대체.
+
+#### 2. API 서버 동작 확인
+
+브라우저에서:
+```
+http://127.0.0.1:8765/health
+```
+`{"status": "ok"}` 확인
+
+#### 3. Telegram Bot Credential 등록 (최초 1회)
+
+```
+n8n UI (localhost:5678)
+→ Settings (좌측 하단)
+→ Credentials
+→ + Add credential
+→ "Telegram API" 검색
+→ Access Token: 8792232455:AAE6Lw0frdeVMUj6VDRYWWfoKC4RkhsRdx0
+→ Name: AlphaFin Telegram Bot
+→ Save
+```
+
+---
+
 ### 워크플로우 1: 일일 데이터 파이프라인
 
 ```
-[1] Schedule Trigger  (Cron: 50 8 * * 1-5, 평일 08:50)
-[2] Execute Command   python data/fetch_reports.py
-[3] Execute Command   python data/fetch_news.py
-[4] Execute Command   python rag/indexer.py
-[5] Telegram          ✅ AlphaFin 데이터 갱신 완료
+[1] Schedule Trigger   Cron: 50 8 * * 1-5  (평일 08:50)
+[2] HTTP Request GET   http://127.0.0.1:8765/fetch-reports   → fetch_reports.py 실행
+[3] HTTP Request GET   http://127.0.0.1:8765/fetch-news      → fetch_news.py 실행
+[4] HTTP Request GET   http://127.0.0.1:8765/build-index     → rag/indexer.py 실행
+[5] Telegram           ✅ AlphaFin 데이터 갱신 완료
 ```
 
 ### 워크플로우 2: 에이전트 분석 + 매수 신호 알림
 
 ```
-[1] Schedule Trigger  (Cron: 10 9 * * 1-5, 평일 09:10)
-
-[2] Execute Command
-    python agent/graph.py --ticker 005930 --output json
-    → stdout: {"final_signal": 1, "stock_name": "삼성전자", ...}
-
-[3] IF  final_signal == 1
+[1] Schedule Trigger   Cron: 10 9 * * 1-5  (평일 09:10)
+[2] HTTP Request GET   http://127.0.0.1:8765/run-agents      → run_daily.py 실행 (30종목)
+                       응답: {"buy_count": 2, "message": "🚀 ...", "buy_signals": [...], "total": 30}
+                       ※ api_server.py가 JSON 파싱 + Telegram 메시지 포맷까지 처리 (Code 노드 불필요)
+[3] IF                 buy_count > 0
     ↓ (True)
-[4] Telegram
-    🚀 매수 신호 감지!
-    종목: {{ $json.stock_name }}
-    {{ $json.recommendation }}
+[4] Telegram           {{ $json.message }}
 ```
+
+### API 서버 엔드포인트 (`src/korean/api_server.py`)
+
+| 엔드포인트 | 실행 스크립트 | 설명 |
+|---|---|---|
+| `GET /health` | — | 서버 상태 확인 |
+| `GET /fetch-reports` | `data/fetch_reports.py` | OpenDART 보고서 수집 |
+| `GET /fetch-news` | `data/fetch_news.py` | 네이버 뉴스 수집 |
+| `GET /build-index` | `rag/indexer.py` | Chroma RAG 인덱스 갱신 |
+| `GET /run-agents` | `agent/run_daily.py --output json` | 전 종목 에이전트 분석 |
 
 ### n8n ↔ Python 연결 방식
 
-```bash
-# --output json 플래그로 n8n Execute Command 노드가 stdout을 파싱
-python agent/graph.py --ticker 005930 --output json
+```
+n8n HTTP Request 노드
+    → GET http://127.0.0.1:8765/run-agents
+    → api_server.py가 run_daily.py를 subprocess로 실행
+    → stdout JSON 파싱 + Telegram 메시지 포맷 처리 후 응답 반환
+       (n8n Code 노드 불필요 — api_server.py._build_agent_message()가 담당)
 
-# 출력 예시
+# /run-agents 응답 예시
 {
-  "ticker": "005930",
-  "stock_name": "삼성전자",
-  "final_signal": 1,
-  "recommendation": "매수 의견 — MACD 골든크로스...",
-  "tech_signal": 1,
-  "fund_signal": 1,
-  "sent_signal": 1
+  "total": 30,
+  "buy_count": 2,
+  "buy_signals": [
+    {
+      "ticker": "005930",
+      "stock_name": "삼성전자",
+      "final_signal": 1,
+      "tech_signal": 1,
+      "fund_signal": 1,
+      "sent_signal": 0,
+      "recommendation": "매수 의견 — MACD 골든크로스..."
+    }
+  ],
+  "message": "🚀 AlphaFin 매수 신호 감지!\n📅 2025-01-15 09:25 KST\n총 30종목 중 2종목 매수\n..."
 }
 ```
 
@@ -376,7 +446,14 @@ AlphaFin/
 │       │   └── graph.py                 # 파이프라인 + n8n JSON CLI
 │       │
 │       ├── app.py                       # Streamlit 대시보드
+│       ├── api_server.py                # n8n용 로컬 HTTP API 서버 (포트 8765)
 │       └── run_pipeline.sh              # Stage 1 전체 실행
+│
+├── n8n/
+│   ├── workflow_1_data_pipeline.json    # 워크플로우 1 백업 (참고용)
+│   └── workflow_2_agent_alerts.json     # 워크플로우 2 백업 (참고용)
+│
+├── start_n8n.bat                        # n8n + API 서버 동시 시작 (Windows)
 │
 ├── outputs/
 │   └── korean/
@@ -473,7 +550,17 @@ python agent/graph.py --ticker 005930 --output json
 
 ### 6. n8n 워크플로우 구성
 
-n8n UI(`http://localhost:5678`)에서 위 "n8n 자동화 설계" 섹션 참조하여 워크플로우 구성
+```
+# 1. n8n + API 서버 동시 시작
+start_n8n.bat 더블클릭
+
+# 2. API 서버 확인
+브라우저: http://127.0.0.1:8765/health  →  {"status": "ok"}
+
+# 3. n8n UI (http://localhost:5678) 접속 후
+#    Telegram Credential 등록 → 워크플로우 구성 → Publish
+#    → "n8n 자동화 설계 > 로컬 n8n 초기 설정" 섹션 참조
+```
 
 ---
 
@@ -605,7 +692,8 @@ Week 4 — 통합 + 발표
   A: "Chroma 검색 결과 청크를 화면에 직접 표시."
 
   Q: "n8n은 어떻게 연결되는가?"
-  A: "--output json 플래그로 n8n이 stdout JSON 파싱 후 Telegram 발송."
+  A: "api_server.py HTTP 서버(포트 8765)를 통해 run_daily.py 실행.
+      JSON 파싱·메시지 포맷은 api_server.py가 처리 → n8n IF 분기 후 Telegram 발송."
 ```
 
 ---

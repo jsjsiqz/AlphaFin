@@ -1,4 +1,5 @@
 {
+  "id": "alphafin-alerts-002",
   "name": "AlphaFin — 2. 에이전트 분석 + 매수 신호 알림",
   "nodes": [
     {
@@ -20,23 +21,17 @@
     },
     {
       "parameters": {
-        "command": "python C:\\AlphaFin\\src\\korean\\agent\\run_daily.py --output json"
+        "method": "GET",
+        "url": "http://127.0.0.1:8765/run-agents",
+        "options": {
+          "timeout": 3600000
+        }
       },
       "id": "af000002-0002-0002-0002-000000000002",
       "name": "전 종목 에이전트 분석",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [460, 300]
-    },
-    {
-      "parameters": {
-        "jsCode": "// stdout JSON 파싱 + Telegram 메시지 포맷\nconst stdout = $input.first().json.stdout || '';\nlet data;\ntry {\n  data = JSON.parse(stdout);\n} catch(e) {\n  return [{ json: { buy_count: 0, buy_signals: [], message: '', parse_error: stdout.substring(0, 200) } }];\n}\n\nconst sig = v => v === 1 ? '📈매수' : v === -1 ? '📉매도' : '➖중립';\nconst now = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });\n\nlet message = '';\nif (data.buy_count > 0) {\n  const lines = data.buy_signals.map(s =>\n    `💡 ${s.stock_name}(${s.ticker})\\n` +\n    `   기술${sig(s.tech_signal)} 펀더${sig(s.fund_signal)} 감성${sig(s.sent_signal)}\\n` +\n    `   ${s.recommendation.substring(0, 200)}`\n  );\n  message =\n    `🚀 AlphaFin 매수 신호 감지!\\n` +\n    `📅 ${now}\\n` +\n    `총 ${data.total}종목 중 ${data.buy_count}종목 매수\\n\\n` +\n    lines.join('\\n\\n') +\n    `\\n\\n⚠️ 학술 목적 전용 · 실제 투자 조언 아님`;\n}\n\nreturn [{ json: { ...data, message } }];"
-      },
-      "id": "af000002-0002-0002-0002-000000000003",
-      "name": "결과 파싱 + 메시지 포맷",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [680, 300]
     },
     {
       "parameters": {
@@ -60,11 +55,11 @@
           "combinator": "and"
         }
       },
-      "id": "af000002-0002-0002-0002-000000000004",
+      "id": "af000002-0002-0002-0002-000000000003",
       "name": "매수 신호 있음?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [900, 300]
+      "position": [680, 300]
     },
     {
       "parameters": {
@@ -72,11 +67,11 @@
         "text": "={{ $json.message }}",
         "additionalFields": {}
       },
-      "id": "af000002-0002-0002-0002-000000000005",
+      "id": "af000002-0002-0002-0002-000000000004",
       "name": "Telegram: 매수 신호 알림",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
-      "position": [1120, 200],
+      "position": [900, 200],
       "credentials": {
         "telegramApi": {
           "id": "",
@@ -92,11 +87,6 @@
       ]
     },
     "전 종목 에이전트 분석": {
-      "main": [
-        [{ "node": "결과 파싱 + 메시지 포맷", "type": "main", "index": 0 }]
-      ]
-    },
-    "결과 파싱 + 메시지 포맷": {
       "main": [
         [{ "node": "매수 신호 있음?", "type": "main", "index": 0 }]
       ]

@@ -61,8 +61,9 @@ BACKTEST_END   = __import__("datetime").date.today().strftime("%Y1231")
 
 # ── LLM 모델 ───────────────────────────────────────────────────────────────
 MODELS = {
-    "claude": "claude-sonnet-4-6",  # 에이전트 분석 (Haiku 대비 정확도 향상)
-    "openai": "gpt-4o-mini",        # 합성기 + 임베딩 전용
+    "claude":       "claude-sonnet-4-6",         # 에이전트 분석 (Haiku 대비 신호 정확도 향상)
+    "claude_haiku": "claude-haiku-4-5-20251001",  # Stage 1 배치 추론 전용 (비용 최소화)
+    "openai":       "gpt-4o-mini",                # 합성기 + 임베딩 전용
 }
 
 # ── 경로 ───────────────────────────────────────────────────────────────────

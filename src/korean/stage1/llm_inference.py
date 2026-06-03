@@ -46,7 +46,7 @@ def init_clients() -> dict:
 def call_claude(client, prompt: str) -> str:
     try:
         resp = client.messages.create(
-            model=MODELS["claude"],
+            model=MODELS["claude_haiku"],
             max_tokens=512,
             messages=[{"role": "user", "content": prompt}],
         )

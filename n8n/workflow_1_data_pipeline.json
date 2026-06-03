@@ -1,4 +1,5 @@
 {
+  "id": "alphafin-pipeline-001",
   "name": "AlphaFin — 1. 일일 데이터 파이프라인",
   "nodes": [
     {
@@ -20,38 +21,50 @@
     },
     {
       "parameters": {
-        "command": "python C:\\AlphaFin\\src\\korean\\data\\fetch_reports.py"
+        "method": "GET",
+        "url": "http://127.0.0.1:8765/fetch-reports",
+        "options": {
+          "timeout": 3600000
+        }
       },
       "id": "af000001-0001-0001-0001-000000000002",
       "name": "보고서 수집 (OpenDART)",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [460, 300]
     },
     {
       "parameters": {
-        "command": "python C:\\AlphaFin\\src\\korean\\data\\fetch_news.py"
+        "method": "GET",
+        "url": "http://127.0.0.1:8765/fetch-news",
+        "options": {
+          "timeout": 3600000
+        }
       },
       "id": "af000001-0001-0001-0001-000000000003",
       "name": "뉴스 수집 (네이버)",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [680, 300]
     },
     {
       "parameters": {
-        "command": "python C:\\AlphaFin\\src\\korean\\rag\\indexer.py"
+        "method": "GET",
+        "url": "http://127.0.0.1:8765/build-index",
+        "options": {
+          "timeout": 3600000
+        }
       },
       "id": "af000001-0001-0001-0001-000000000004",
       "name": "RAG 인덱스 갱신 (Chroma)",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [900, 300]
     },
     {
       "parameters": {
         "chatId": "1348079303",
-        "text": "✅ AlphaFin 데이터 갱신 완료\n보고서 수집 → 뉴스 수집 → RAG 인덱스 갱신 완료\n⏰ {{ $now.toLocaleString('ko-KR') }}",
+        "text": "✅ AlphaFin 데이터 갱신 완료\n보고서 수집 → 뉴스 수집 → RAG 인덱스 갱신 완료\n⏰ {{ $now.setZone(\"Asia/Seoul\").toFormat(\"yyyy-MM-dd HH:mm\") }} KST",
         "additionalFields": {}
       },
       "id": "af000001-0001-0001-0001-000000000005",

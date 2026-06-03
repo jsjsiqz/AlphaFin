@@ -78,14 +78,13 @@ if __name__ == "__main__":
     parser.add_argument("--ticker", default="005930", help="종목 티커 (예: 005930)")
     parser.add_argument(
         "--output", choices=["text", "json"], default="text",
-        help="출력 형식 — json: n8n Execute Command 노드용"
+        help="출력 형식 — json: CLI 단일 종목 JSON 출력 (n8n은 run_daily.py 사용)"
     )
     args = parser.parse_args()
 
     result = run(args.ticker)
 
     if args.output == "json":
-        # n8n Execute Command 노드가 stdout을 JSON으로 파싱
         print(_json.dumps({
             "ticker":         result.ticker,
             "stock_name":     result.stock_name,
