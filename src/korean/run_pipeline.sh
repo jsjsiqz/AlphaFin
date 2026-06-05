@@ -47,8 +47,8 @@ echo "         outputs/korean/prices/benchmark_monthly.csv 생성"
 python data/fetch_prices.py
 
 echo ""
-echo "[Step 4] 테스트 데이터 구축..."
-python data/build_testdata.py
+echo "[Step 4] 테스트 데이터 구축 (보고서+뉴스 통합, 미래 데이터 누수 방지)..."
+python stage1/build_testdata.py
 
 echo ""
 echo "[Step 5] 수집 품질 확인..."
