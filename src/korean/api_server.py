@@ -38,20 +38,20 @@ def _build_agent_message(data: dict) -> dict:
     message = ""
     if buy_count > 0:
         lines = []
-        for s in buy_signals:
-            rec = (s.get("recommendation") or "")[:200]
+        for s in buy_signals[:10]:
             lines.append(
-                f"💡 {s.get('stock_name','?')}({s.get('ticker','?')})\n"
-                f"   기술{_fmt_signal(s.get('tech_signal',0))} "
+                f"💡 {s.get('stock_name','?')}({s.get('ticker','?')}) "
+                f"기술{_fmt_signal(s.get('tech_signal',0))} "
                 f"펀더{_fmt_signal(s.get('fund_signal',0))} "
-                f"감성{_fmt_signal(s.get('sent_signal',0))}\n"
-                f"   {rec}"
+                f"감성{_fmt_signal(s.get('sent_signal',0))}"
             )
+        tail = f"\n... 외 {buy_count - 10}종목" if buy_count > 10 else ""
         message = (
             f"🚀 AlphaFin 매수 신호 감지!\n"
             f"📅 {now}\n"
             f"총 {total}종목 중 {buy_count}종목 매수\n\n"
-            + "\n\n".join(lines)
+            + "\n".join(lines)
+            + tail
             + "\n\n⚠️ 학술 목적 전용 · 실제 투자 조언 아님"
         )
 
