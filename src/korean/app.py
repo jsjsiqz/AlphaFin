@@ -212,9 +212,20 @@ with tab_backtest:
     _chart_path   = os.path.join(_bt_dir, "returns_동일가중_롱숏.png")
 
     st.subheader("LLM별 주가 방향 예측 정확도")
-    _acc_data = {"모델": ["Claude Haiku 4.5", "GPT-4o-mini", "랜덤 베이스라인"],
-                 "정확도(%)": [53.6, 53.6, 50.0]}
-    st.dataframe(pd.DataFrame(_acc_data), use_container_width=True, hide_index=True)
+    _pred_path = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "outputs", "korean", "parsed_predictions.xlsx"))
+    if os.path.exists(_pred_path):
+        _df_pred = pd.read_excel(_pred_path)
+        _model_cols = [c for c in _df_pred.columns if c not in ("ticker", "stock_name", "date", "ground_truth")]
+        _acc_rows = []
+        for _m in _model_cols:
+            _fil = _df_pred[_df_pred[_m] != 0]
+            _acc = round((_fil["ground_truth"] == _fil[_m]).mean() * 100, 2) if len(_fil) > 0 else 0.0
+            _zero = round((_df_pred[_m] == 0).mean() * 100, 1)
+            _acc_rows.append({"모델": _m, "정확도(%)": _acc, "판단 불가(%)": _zero, "샘플 수": len(_fil)})
+        _acc_rows.append({"모델": "랜덤 베이스라인", "정확도(%)": 50.0, "판단 불가(%)": 0.0, "샘플 수": len(_df_pred)})
+        st.dataframe(pd.DataFrame(_acc_rows), use_container_width=True, hide_index=True)
+    else:
+        st.info("예측 결과 없음 — `python stage1/llm_inference.py` 먼저 실행하세요.")
 
     st.subheader("전략별 성과 지표 (동일가중 롱숏)")
     if os.path.exists(_metrics_path):
